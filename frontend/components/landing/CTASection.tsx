@@ -42,7 +42,7 @@ export default function CTASection() {
             }`}
             style={{ transitionDelay: "0.2s" }}
           >
-            Start preserving your family&apos;s stories today—it&apos;s free and
+            Start preserving your family&apos;s stories today—it&apos;s,
             takes just 30 seconds to begin
           </p>
 

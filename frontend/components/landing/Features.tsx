@@ -66,7 +66,7 @@ export default function Features() {
 
       <div className="container mx-auto px-6 relative z-10">
         {/* Section Header */}
-        <div
+        {/* <div
           ref={headerRef}
           className={`text-center mb-20 space-y-4 memory-fade-up ${
             headerVisible ? "visible" : ""
@@ -78,10 +78,10 @@ export default function Features() {
           <p className="text-xl text-[#5D5D5D] max-w-2xl mx-auto">
             Every detail designed to make preserving memories effortless
           </p>
-        </div>
+        </div> */}
 
         {/* Features Grid */}
-        <div
+        {/* <div
           ref={featuresRef}
           className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto"
         >
@@ -92,29 +92,24 @@ export default function Features() {
                 visibleItems.has(index) ? "visible" : ""
               }`}
             >
-              {/* Gradient Background on Hover */}
               <div
                 className={`absolute inset-0 bg-gradient-to-br ${feature.gradient} opacity-0 group-hover:opacity-5 transition-opacity duration-300`}
               />
 
               <div className="relative z-10 space-y-4">
-                {/* Icon */}
                 <div className="w-20 h-20 rounded-2xl bg-gradient-to-br from-[#FFF8F0] to-[#F5EEE6] flex items-center justify-center text-4xl group-hover:scale-110 transition-transform duration-300 shadow-md">
                   {feature.icon}
                 </div>
 
-                {/* Title */}
                 <h3 className="text-2xl font-serif font-bold text-[#3E2723] group-hover:text-[#8B7355] transition-colors">
                   {feature.title}
                 </h3>
 
-                {/* Description */}
                 <p className="text-[#5D5D5D] leading-relaxed">
                   {feature.description}
                 </p>
               </div>
 
-              {/* Decorative Element */}
               <div className="absolute bottom-4 right-4 w-12 h-12 opacity-5 group-hover:opacity-10 transition-opacity">
                 <svg
                   viewBox="0 0 100 100"
@@ -126,40 +121,8 @@ export default function Features() {
               </div>
             </Card>
           ))}
-        </div>
+        </div> */}
 
-        {/* Additional Value Props */}
-        <div className="mt-20 max-w-4xl mx-auto">
-          <div className="grid md:grid-cols-3 gap-8 text-center">
-            <div
-              className="space-y-2 animate-fade-in"
-              style={{ animationDelay: "0.6s" }}
-            >
-              <div className="text-4xl font-serif font-bold text-[#8B7355]">
-                Free
-              </div>
-              <div className="text-[#5D5D5D]">Forever and always</div>
-            </div>
-            <div
-              className="space-y-2 animate-fade-in"
-              style={{ animationDelay: "0.8s" }}
-            >
-              <div className="text-4xl font-serif font-bold text-[#8B7355]">
-                30s
-              </div>
-              <div className="text-[#5D5D5D]">To get started</div>
-            </div>
-            <div
-              className="space-y-2 animate-fade-in"
-              style={{ animationDelay: "1s" }}
-            >
-              <div className="text-4xl font-serif font-bold text-[#8B7355]">
-                ∞
-              </div>
-              <div className="text-[#5D5D5D]">Memories preserved</div>
-            </div>
-          </div>
-        </div>
       </div>
 
       {/* Fade Transition to Next Section with Animated Gradient */}

@@ -4,7 +4,6 @@ import { useEffect, useRef, useState } from "react";
 import { useScrollAnimation } from "@/hooks/useScrollAnimation";
 
 export default function ProblemStatement() {
-  const [count, setCount] = useState(0);
   const [isVisible, setIsVisible] = useState(false);
   const sectionRef = useRef<HTMLDivElement>(null);
   const { elementRef: textRef, isVisible: textVisible } = useScrollAnimation({
@@ -30,26 +29,6 @@ export default function ProblemStatement() {
     return () => observer.disconnect();
   }, []);
 
-  useEffect(() => {
-    if (!isVisible) return;
-
-    let start = 0;
-    const end = 90;
-    const duration = 2000;
-    const increment = end / (duration / 16);
-
-    const timer = setInterval(() => {
-      start += increment;
-      if (start >= end) {
-        setCount(end);
-        clearInterval(timer);
-      } else {
-        setCount(Math.floor(start));
-      }
-    }, 16);
-
-    return () => clearInterval(timer);
-  }, [isVisible]);
 
   return (
     <section
@@ -73,18 +52,6 @@ export default function ProblemStatement() {
                 {/* Decorative circle background */}
                 <div className="absolute inset-0 bg-gradient-to-br from-[#E8B4A0] to-[#D4AF37] rounded-full blur-2xl opacity-20 scale-150" />
 
-                <div className="relative bg-white rounded-3xl p-12 shadow-2xl border-4 border-[#8B7355]/20">
-                  <div className="text-8xl lg:text-9xl font-serif font-bold text-[#8B7355] mb-4">
-                    {count}%
-                  </div>
-                  <div className="text-2xl lg:text-3xl text-[#3E2723] font-serif leading-relaxed">
-                    of family stories are lost
-                    <br />
-                    <span className="text-[#5D5D5D]">
-                      within two generations
-                    </span>
-                  </div>
-                </div>
               </div>
             </div>
           </div>

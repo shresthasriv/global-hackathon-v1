@@ -15,7 +15,7 @@ export default function Home() {
       <ProblemStatement />
       <HowItWorks />
       <ExampleStories />
-      <Features />
+      {/* <Features /> */}
       <CTASection />
       <Footer />
     </div>

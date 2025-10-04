@@ -9,11 +9,7 @@ export default function Footer() {
     <footer className="relative bg-gradient-to-b from-[#3E2723] to-[#2d1f1a] text-white overflow-hidden">
       {/* Decorative Top Wave */}
       <div className="absolute top-0 left-0 right-0 transform -translate-y-full">
-        <svg
-          className="w-full h-16 md:h-24"
-          viewBox="0 0 1200 120"
-          preserveAspectRatio="none"
-        >
+        <svg className="w-full h-16 md:h-24" viewBox="0 0 1200 120">
           <path
             d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V120H0V27.35A600.21,600.21,0,0,0,321.39,56.44Z"
             fill="#3E2723"
@@ -49,7 +45,7 @@ export default function Footer() {
           <div className="inline-block mb-6">
             <div className="relative">
               <div className="absolute inset-0 bg-[#D4AF37] rounded-full blur-2xl opacity-20" />
-              <span className="relative text-6xl md:text-7xl block">🕰️</span>
+              {/* <span className="relative text-6xl md:text-7xl block">🕰️</span> */}
             </div>
           </div>
 
@@ -73,10 +69,10 @@ export default function Footer() {
           {/* Brand & Mission */}
           <div className="md:col-span-2 space-y-6">
             <div className="flex items-center space-x-3">
-              <span className="text-4xl">🕰️</span>
-              <span className="text-2xl font-serif font-bold text-[#FFF8F0]">
+              {/* <span className="text-4xl">🕰️</span> */}
+              {/* <span className="text-2xl font-serif font-bold text-[#FFF8F0]">
                 Evermore
-              </span>
+              </span> */}
             </div>
             <p className="text-white/70 leading-relaxed max-w-md">
               We believe every family story deserves to be preserved. Through

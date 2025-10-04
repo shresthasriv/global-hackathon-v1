@@ -258,6 +258,26 @@ export default function ExampleStories() {
         </div>
       </div>
 
+      {/* Additional Value Props */}
+      <div className="mt-20 max-w-4xl mx-auto flex justify-center gap-40">
+        <div
+          className="space-y-2 animate-fade-in"
+          style={{ animationDelay: "0.8s" }}
+        >
+          <div className="text-4xl font-serif font-bold text-[#8B7355]">
+            30s
+          </div>
+          <div className="text-[#5D5D5D]">To get started</div>
+        </div>
+        <div
+          className="space-y-2 animate-fade-in"
+          style={{ animationDelay: "1s" }}
+        >
+          <div className="text-4xl font-serif font-bold text-[#8B7355]">∞</div>
+          <div className="text-[#5D5D5D]">Memories preserved</div>
+        </div>
+      </div>
+
       {/* Fade Transition to Next Section */}
       <div className="absolute bottom-0 left-0 right-0 h-96 bg-gradient-to-b from-[#A8B89F]/0 via-[#FFF8F0]/30 via-[#FEFEFE]/70 to-white pointer-events-none" />
     </section>
