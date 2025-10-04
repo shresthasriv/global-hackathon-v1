@@ -1,4 +1,4 @@
-from src.libs.config import settings
+from src.config.settings import settings
 
 
 class Acquire:
