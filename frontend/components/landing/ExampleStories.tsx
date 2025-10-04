@@ -2,7 +2,8 @@
 
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
+import { gsap } from "gsap";
 import {
   useScrollAnimation,
   useStaggeredAnimation,
@@ -17,6 +18,24 @@ export default function ExampleStories() {
   });
   const { elementRef: galleryRef, visibleItems: visibleCards } =
     useStaggeredAnimation(3, 150);
+  const activeStoryCardRef = useRef<HTMLDivElement>(null);
+
+  // Page flip animation when changing stories
+  useEffect(() => {
+    if (activeStoryCardRef.current) {
+      gsap.fromTo(
+        activeStoryCardRef.current,
+        { rotateY: 90, opacity: 0, scale: 0.9 },
+        {
+          rotateY: 0,
+          opacity: 1,
+          scale: 1,
+          duration: 0.7,
+          ease: "back.out(1.7)",
+        }
+      );
+    }
+  }, [activeStory]);
 
   const stories = [
     {
@@ -117,8 +136,12 @@ export default function ExampleStories() {
           className={`max-w-4xl mx-auto mb-16 memory-bloom ${
             storyVisible ? "visible" : ""
           }`}
+          style={{ perspective: "1500px" }}
         >
-          <Card className="bg-white border-4 border-[#8B7355]/20 shadow-2xl overflow-hidden hover:shadow-3xl transition-shadow duration-500">
+          <Card
+            ref={activeStoryCardRef}
+            className="bg-white border-4 border-[#8B7355]/20 shadow-2xl overflow-hidden hover:shadow-3xl transition-shadow duration-500"
+          >
             {/* Story Header with Gradient */}
             <div
               className={`bg-gradient-to-r ${stories[activeStory].color} p-8 text-white`}

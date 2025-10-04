@@ -53,8 +53,8 @@ export default function Footer() {
             </div>
           </div>
 
-          <h3 className="text-2xl md:text-3xl font-serif font-bold mb-4 text-[#FFF8F0]">
-            Every memory is a gift
+          <h3 className="text-2xl font-serif font-bold text-white mb-4">
+            Evermore
           </h3>
           <p className="text-lg text-white/70 leading-relaxed italic font-serif">
             &quot;In every old person there is a young person wondering what
@@ -75,7 +75,7 @@ export default function Footer() {
             <div className="flex items-center space-x-3">
               <span className="text-4xl">🕰️</span>
               <span className="text-2xl font-serif font-bold text-[#FFF8F0]">
-                Memory Keeper
+                Evermore
               </span>
             </div>
             <p className="text-white/70 leading-relaxed max-w-md">
@@ -237,7 +237,7 @@ export default function Footer() {
 
           <div className="pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
             <p className="text-white/50 text-sm text-center md:text-left">
-              © 2025 Memory Keeper. Made with{" "}
+              © 2025 Evermore. Made with{" "}
               <span className="text-[#E8B4A0] inline-block animate-pulse">
                 ❤️
               </span>{" "}

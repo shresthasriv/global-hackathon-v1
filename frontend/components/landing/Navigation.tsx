@@ -26,7 +26,7 @@ export default function Navigation() {
           <div className="flex items-center space-x-2">
             <span className="text-3xl">🕰️</span>
             <span className="text-2xl font-serif font-bold text-[#3E2723]">
-              Memory Keeper
+              Evermore
             </span>
           </div>
 
