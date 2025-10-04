@@ -213,3 +213,24 @@
     background-position: 100% 50%;
   }
 }
+
+@keyframes fadeInUp {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes drawSmile {
+  0% {
+    stroke-dashoffset: 300;
+  }
+  100% {
+    stroke-dashoffset: 0;
+  }
+}
+

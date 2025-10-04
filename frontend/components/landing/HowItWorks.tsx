@@ -129,7 +129,7 @@ export default function HowItWorks() {
 
   const steps = [
     {
-      title: "Set up in 30 seconds",
+      title: "Set up in seconds",
       description:
         "Add your grandparent's name and you're ready to go. No complicated forms or sign-ups needed.",
       color: "from-[#E8B4A0] to-[#d9a391]",

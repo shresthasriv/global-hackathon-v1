@@ -42,8 +42,8 @@ export default function CTASection() {
             }`}
             style={{ transitionDelay: "0.2s" }}
           >
-            Start preserving your family&apos;s stories today—it&apos;s,
-            takes just 30 seconds to begin
+            Start preserving your family&apos;s stories today
+
           </p>
 
           {/* CTA Button */}

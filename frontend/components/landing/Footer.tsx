@@ -214,19 +214,6 @@ export default function Footer() {
         >
           {/* <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-white/20 to-transparent" /> */}
 
-          <div className="pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
-            <p className="text-white/50 text-sm text-center md:text-left">
-              © 2025 Evermore. Made with{" "}
-              <span className="text-[#E8B4A0] inline-block animate-pulse">
-                ❤️
-              </span>{" "}
-              for families everywhere.
-            </p>
-
-            <div className="flex items-center gap-4 text-sm text-white/50">
-              <span>Preserving memories, one story at a time</span>
-            </div>
-          </div>
         </div>
 
         {/* Large Cutoff Brand Name */}

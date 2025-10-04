@@ -60,20 +60,72 @@ export default function Hero() {
           <div className="order-1 lg:order-2 space-y-8 animate-slide-up">
             {/* Main Headline */}
             <h1 className="text-5xl lg:text-7xl font-serif font-bold text-[#3E2723] leading-tight text-balance">
-              Every Family Has Stories Worth{" "}
-              <span className="text-[#8B7355] relative inline-block">
+              <span
+                className="inline-block opacity-0"
+                style={{
+                  animation: "fadeInUp 0.6s ease-out 0.1s forwards",
+                }}
+              >
+                Every
+              </span>{" "}
+              <span
+                className="inline-block opacity-0"
+                style={{
+                  animation: "fadeInUp 0.6s ease-out 0.3s forwards",
+                }}
+              >
+                Family
+              </span>{" "}
+              <span
+                className="inline-block opacity-0"
+                style={{
+                  animation: "fadeInUp 0.6s ease-out 0.5s forwards",
+                }}
+              >
+                Has
+              </span>{" "}
+              <span
+                className="inline-block opacity-0"
+                style={{
+                  animation: "fadeInUp 0.6s ease-out 0.7s forwards",
+                }}
+              >
+                Stories
+              </span>{" "}
+              <span
+                className="inline-block opacity-0"
+                style={{
+                  animation: "fadeInUp 0.6s ease-out 0.9s forwards",
+                }}
+              >
+                Worth
+              </span>{" "}
+              <span
+                className="text-[#8B7355] relative inline-block opacity-0"
+                style={{
+                  animation: "fadeInUp 0.6s ease-out 1.1s forwards",
+                }}
+              >
                 Keeping
                 <svg
-                  className="absolute -bottom-2 left-0 w-full"
+                  className="absolute -bottom-2 left-0 w-full opacity-0"
                   height="12"
                   viewBox="0 0 300 12"
                   fill="none"
+                  style={{
+                    animation: "fadeIn 0.8s ease-out 1.7s forwards",
+                  }}
                 >
                   <path
                     d="M2 10C50 5 100 2 150 3C200 4 250 7 298 10"
                     stroke="#D4AF37"
                     strokeWidth="3"
                     strokeLinecap="round"
+                    strokeDasharray="300"
+                    strokeDashoffset="300"
+                    style={{
+                      animation: "drawSmile 1.2s ease-out 1.7s forwards",
+                    }}
                   />
                 </svg>
               </span>
@@ -99,12 +151,12 @@ export default function Hero() {
                 variant="outline"
                 className="border-2 border-[#8B7355] text-[#8B7355] hover:bg-[#8B7355] hover:text-white text-lg px-8 py-6 rounded-xl transition-all duration-300"
               >
-                Watch Demo (30s)
+                Watch Demo
               </Button>
             </div>
 
             {/* Trust Signals */}
-            <div className="flex items-center gap-6 pt-4">
+            {/* <div className="flex items-center gap-6 pt-4">
               <div className="flex items-center gap-2 text-[#5D5D5D]">
                 <svg
                   className="w-5 h-5 text-[#A8B89F]"
@@ -133,7 +185,7 @@ export default function Hero() {
                 </svg>
                 <span className="text-sm">Start in 30 seconds</span>
               </div>
-            </div>
+            </div> */}
           </div>
         </div>
       </div>
