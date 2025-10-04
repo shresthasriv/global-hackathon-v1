@@ -4,13 +4,21 @@ import { useState, useEffect, useRef, Suspense } from "react";
 import { useRouter, useParams, useSearchParams } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Mic, MicOff, Send, Keyboard, MessageSquare } from "lucide-react";
+import {
+  Mic,
+  MicOff,
+  Send,
+  Keyboard,
+  MessageSquare,
+  AlertCircle,
+} from "lucide-react";
 import {
   getMemorySpace,
   getInitialPrompt,
   sendMessage,
   type ConversationMessage,
 } from "@/lib/api/dummy";
+import { useSpeechRecognition } from "@/hooks/useSpeechRecognition";
 
 function ConversationContent() {
   const router = useRouter();
@@ -22,10 +30,19 @@ function ConversationContent() {
   const [loading, setLoading] = useState(true);
   const [sending, setSending] = useState(false);
   const [mode, setMode] = useState<"voice" | "text">("text");
-  const [isRecording, setIsRecording] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   const token = params.token as string;
+
+  // Speech Recognition Hook
+  const {
+    isListening,
+    isSupported,
+    error: speechError,
+    listen,
+  } = useSpeechRecognition({
+    lang: "en-US",
+  });
 
   useEffect(() => {
     const modeParam = searchParams.get("mode");
@@ -62,13 +79,14 @@ function ConversationContent() {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
 
-  const handleSendMessage = async () => {
-    if (!inputText.trim() || !memorySpace) return;
+  const handleSendMessage = async (textToSend?: string) => {
+    const messageText = textToSend || inputText;
+    if (!messageText.trim() || !memorySpace) return;
 
     const userMessage: ConversationMessage = {
       id: Date.now().toString(),
       role: "user",
-      content: inputText,
+      content: messageText.trim(),
       timestamp: new Date().toISOString(),
     };
 
@@ -77,7 +95,7 @@ function ConversationContent() {
     setSending(true);
 
     try {
-      const aiResponse = await sendMessage(memorySpace.id, inputText);
+      const aiResponse = await sendMessage(memorySpace.id, messageText);
       setMessages((prev) => [...prev, aiResponse]);
     } catch (error) {
       console.error("Error sending message:", error);
@@ -94,16 +112,33 @@ function ConversationContent() {
     }
   };
 
-  const toggleRecording = () => {
-    if (!isRecording) {
-      // Start recording (dummy)
-      setIsRecording(true);
-      // In real implementation, start Web Speech API or similar
-      alert("Voice recording is a demo feature. Please use text mode for now.");
-      setIsRecording(false);
-    } else {
-      // Stop recording
-      setIsRecording(false);
+  const handleVoiceRecord = async () => {
+    if (!isSupported) {
+      alert(
+        "Voice recognition is not supported in your browser. Please use Chrome, Edge, or Safari."
+      );
+      return;
+    }
+
+    if (isListening) {
+      // Already listening, can't start another
+      return;
+    }
+
+    try {
+      // Start listening and wait for result
+      const transcript = await listen();
+
+      if (transcript) {
+        // Append to existing input text
+        setInputText((prev) => {
+          const trimmed = prev.trim();
+          return trimmed ? `${trimmed} ${transcript}` : transcript;
+        });
+        // Don't auto-send - let user click send button
+      }
+    } catch (error) {
+      console.error("Voice recognition error:", error);
     }
   };
 
@@ -214,6 +249,18 @@ function ConversationContent() {
       <div className="bg-white border-t-2 border-[#E5D5C3] shadow-lg sticky bottom-0">
         <div className="container mx-auto px-6 py-4">
           <div className="max-w-3xl mx-auto">
+            {/* Error Message for Voice */}
+            {mode === "voice" && speechError && (
+              <div className="mb-3 p-3 bg-red-50 border border-red-200 rounded-lg flex items-center gap-2 text-red-700 text-sm">
+                <AlertCircle className="w-4 h-4 flex-shrink-0" />
+                <span>
+                  {speechError === "not-allowed"
+                    ? "Microphone access denied. Please enable it in your browser settings."
+                    : "Voice recognition error. Please try again."}
+                </span>
+              </div>
+            )}
+
             {mode === "text" ? (
               <div className="flex gap-3">
                 <Input
@@ -225,7 +272,7 @@ function ConversationContent() {
                   className="flex-1 h-12 text-base"
                 />
                 <Button
-                  onClick={handleSendMessage}
+                  onClick={() => handleSendMessage()}
                   disabled={!inputText.trim() || sending}
                   className="h-12 px-6 bg-gradient-to-r from-[#8B7355] to-[#A0826D] hover:from-[#7A6348] hover:to-[#8B7355]"
                 >
@@ -233,26 +280,73 @@ function ConversationContent() {
                 </Button>
               </div>
             ) : (
-              <div className="flex justify-center">
-                <Button
-                  onClick={toggleRecording}
-                  className={`h-16 w-16 rounded-full ${
-                    isRecording
-                      ? "bg-red-500 hover:bg-red-600 animate-pulse"
-                      : "bg-gradient-to-r from-[#8B7355] to-[#A0826D] hover:from-[#7A6348] hover:to-[#8B7355]"
-                  } shadow-lg`}
-                >
-                  {isRecording ? (
-                    <MicOff className="w-8 h-8" />
-                  ) : (
-                    <Mic className="w-8 h-8" />
+              <div className="space-y-3">
+                {/* Voice Input Display */}
+                {inputText && (
+                  <div className="bg-[#FFF8F0] border-2 border-[#E5D5C3] rounded-lg p-4 min-h-[60px]">
+                    <p className="text-[#3E2723] text-base leading-relaxed">
+                      {inputText}
+                    </p>
+                  </div>
+                )}
+
+                {/* Voice Controls */}
+                <div className="flex items-center justify-center gap-3">
+                  <Button
+                    onClick={handleVoiceRecord}
+                    disabled={!isSupported || isListening}
+                    className={`h-16 w-16 rounded-full ${
+                      isListening
+                        ? "bg-red-500 hover:bg-red-600 animate-pulse"
+                        : "bg-gradient-to-r from-[#8B7355] to-[#A0826D] hover:from-[#7A6348] hover:to-[#8B7355]"
+                    } shadow-lg disabled:opacity-50 disabled:cursor-not-allowed`}
+                    title={
+                      !isSupported
+                        ? "Voice not supported in this browser"
+                        : isListening
+                        ? "Listening..."
+                        : "Click to speak"
+                    }
+                  >
+                    {isListening ? (
+                      <MicOff className="w-8 h-8" />
+                    ) : (
+                      <Mic className="w-8 h-8" />
+                    )}
+                  </Button>
+
+                  {inputText.trim() && !isListening && (
+                    <Button
+                      onClick={() => handleSendMessage()}
+                      disabled={sending}
+                      className="h-12 px-6 bg-gradient-to-r from-[#A8B89F] to-[#8B9B82] hover:from-[#97A78E] hover:to-[#7A8A71]"
+                    >
+                      <Send className="w-5 h-5 mr-2" />
+                      Send
+                    </Button>
                   )}
-                </Button>
+                </div>
+
+                <p className="text-center text-xs text-[#8B7355]">
+                  {isListening ? (
+                    <span className="flex items-center justify-center gap-2">
+                      <span className="inline-block w-2 h-2 bg-red-500 rounded-full animate-pulse" />
+                      Listening... Speak now
+                    </span>
+                  ) : inputText.trim() ? (
+                    "Click mic to add more, or click Send when ready"
+                  ) : (
+                    "Click the microphone to speak. Recording stops automatically when you finish."
+                  )}
+                </p>
               </div>
             )}
-            <p className="text-center text-xs text-[#8B7355]/70 mt-2">
-              Take your time. Every memory is precious. ✨
-            </p>
+
+            {!isListening && (
+              <p className="text-center text-xs text-[#8B7355]/70 mt-2">
+                Take your time. Every memory is precious. ✨
+              </p>
+            )}
           </div>
         </div>
       </div>
