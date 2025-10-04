@@ -29,11 +29,10 @@ export default function ProblemStatement() {
     return () => observer.disconnect();
   }, []);
 
-
   return (
     <section
       ref={sectionRef}
-      className="py-24 bg-gradient-to-b from-[#FFF8F0] to-[#F5EEE6] relative overflow-hidden"
+      className="py-24 bg-[#FFF8F0] relative overflow-hidden"
     >
       {/* Subtle Pattern Overlay */}
       <div
@@ -50,8 +49,7 @@ export default function ProblemStatement() {
             <div className="inline-block">
               <div className="relative">
                 {/* Decorative circle background */}
-                <div className="absolute inset-0 bg-gradient-to-br from-[#E8B4A0] to-[#D4AF37] rounded-full blur-2xl opacity-20 scale-150" />
-
+                <div className="absolute inset-0 bg-[#E8B4A0] rounded-full blur-2xl opacity-20 scale-150" />
               </div>
             </div>
           </div>
@@ -160,9 +158,6 @@ export default function ProblemStatement() {
           </div>
         </div>
       </div>
-
-      {/* Fade Transition to Next Section */}
-      <div className="absolute bottom-0 left-0 right-0 h-96 bg-gradient-to-b from-[#F5EEE6]/0 via-[#F5EEE6]/30 via-[#FEFEFE]/70 to-white pointer-events-none" />
     </section>
   );
 }
