@@ -9,6 +9,7 @@ class Settings(BaseSettings):
     gemini_api_key: str
     secret_key: str
     cors_origins: list[str] = ["http://localhost:3000"]
+    app_base_url: str = "http://localhost:8000"
 
     class Config:
         env_file = ".env"
