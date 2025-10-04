@@ -23,103 +23,49 @@ export default function HowItWorks() {
       if (isMobile) {
         // On mobile, just show all cards stacked - no animation needed
         gsap.set([step1Ref.current, step2Ref.current, step3Ref.current], {
-          y: 0,
-          x: 0,
           opacity: 1,
-          scale: 1,
         });
       } else {
-        // Desktop animation with horizontal movement
+        // Desktop animation - cards appear in their final positions
         const tl = gsap.timeline({
           scrollTrigger: {
             trigger: sectionRef.current,
             start: "top top",
-            end: "+=3000",
+            end: "+=1500",
             scrub: 1,
             pin: true,
             anticipatePin: 1,
           },
         });
 
+        // Set initial state - cards in final positions but invisible
         gsap.set([step1Ref.current, step2Ref.current, step3Ref.current], {
-          y: "100vh",
-          x: 0,
           opacity: 0,
-          scale: 0.8,
         });
 
+        // Animate: just fade in one by one
         tl.to(step1Ref.current, {
-          y: 0,
           opacity: 1,
-          scale: 1,
           duration: 1,
           ease: "power2.out",
         })
           .to(
-            step1Ref.current,
-            {
-              x: "-45%",
-              scale: 0.9,
-              duration: 1,
-              ease: "power2.inOut",
-            },
-            "+=0.3"
-          )
-          .to(
             step2Ref.current,
             {
-              y: 0,
               opacity: 1,
-              scale: 1,
               duration: 1,
               ease: "power2.out",
             },
-            "<"
-          )
-          .to(
-            step1Ref.current,
-            {
-              x: "-90%",
-              scale: 0.85,
-              duration: 1,
-              ease: "power2.inOut",
-            },
             "+=0.3"
-          )
-          .to(
-            step2Ref.current,
-            {
-              x: "45%",
-              scale: 0.9,
-              duration: 1,
-              ease: "power2.inOut",
-            },
-            "<"
           )
           .to(
             step3Ref.current,
             {
-              y: 0,
               opacity: 1,
-              scale: 1,
               duration: 1,
               ease: "power2.out",
             },
-            "<"
-          )
-          .to(
-            [step1Ref.current, step2Ref.current, step3Ref.current],
-            {
-              x: (index) => {
-                if (index === 0) return "-100%";
-                if (index === 1) return "0%";
-                return "100%";
-              },
-              scale: 0.85,
-              duration: 1,
-              ease: "power2.inOut",
-            },
-            "+=0.2"
+            "+=0.3"
           );
       }
     }, sectionRef);
@@ -152,7 +98,7 @@ export default function HowItWorks() {
     <section
       ref={sectionRef}
       id="how-it-works"
-      className="relative md:h-screen overflow-hidden bg-[#FFF8F0] py-16 md:py-0"
+      className="relative md:h-screen overflow-hidden bg-[#FFF8F0] py-12 md:py-0"
     >
       {/* Subtle Pattern Overlay */}
       <div
@@ -174,12 +120,12 @@ export default function HowItWorks() {
 
       <div
         ref={containerRef}
-        className="md:absolute md:inset-0 flex md:items-center md:justify-center items-start justify-center pt-32 md:pt-0"
+        className="md:absolute md:inset-0 flex md:items-center md:justify-center items-start justify-center pt-24 md:pt-0"
       >
         <div className="md:hidden flex flex-col gap-6 w-full px-4 max-w-md mx-auto">
           {/* Mobile: Stack all cards vertically */}
           <div ref={step1Ref}>
-            <div className="space-y-2 md:space-y-4 text-center backdrop-blur-md p-4 md:p-6 lg:p-8 rounded-lg">
+            <div className="space-y-2 md:space-y-4 text-center backdrop-blur-md  p-4 md:p-6 lg:p-8 rounded-lg">
               <h3 className="text-xl md:text-2xl lg:text-3xl font-serif font-bold text-[#3E2723]">
                 {steps[0].title}
               </h3>
@@ -190,7 +136,7 @@ export default function HowItWorks() {
           </div>
 
           <div ref={step2Ref}>
-            <div className="space-y-2 md:space-y-4 text-center backdrop-blur-md p-4 md:p-6 lg:p-8 rounded-lg">
+            <div className="space-y-2 md:space-y-4 text-center backdrop-blur-md  p-4 md:p-6 lg:p-8 rounded-lg">
               <h3 className="text-xl md:text-2xl lg:text-3xl font-serif font-bold text-[#3E2723]">
                 {steps[1].title}
               </h3>
@@ -201,7 +147,7 @@ export default function HowItWorks() {
           </div>
 
           <div ref={step3Ref}>
-            <div className="space-y-2 md:space-y-4 text-center backdrop-blur-md p-4 md:p-6 lg:p-8 rounded-lg">
+            <div className="space-y-2 md:space-y-4 text-center backdrop-blur-md  p-4 md:p-6 lg:p-8 rounded-lg">
               <h3 className="text-xl md:text-2xl lg:text-3xl font-serif font-bold text-[#3E2723]">
                 {steps[2].title}
               </h3>
@@ -215,7 +161,7 @@ export default function HowItWorks() {
         {/* Desktop: Animated cards */}
         <div
           ref={step1Ref}
-          className="hidden md:block absolute w-[90%] max-w-md"
+          className="hidden md:block absolute w-[85%] sm:w-[75%] md:w-[65%] lg:w-[55%] max-w-md left-[5%] md:left-[10%] lg:left-[15%]"
           style={{ transformOrigin: "center center" }}
         >
           <div className="space-y-2 md:space-y-4 text-center backdrop-blur-md p-4 md:p-6 lg:p-8 rounded-lg">
@@ -230,7 +176,7 @@ export default function HowItWorks() {
 
         <div
           ref={step2Ref}
-          className="hidden md:block absolute w-[90%] max-w-md"
+          className="hidden md:block absolute w-[85%] sm:w-[75%] md:w-[65%] lg:w-[55%] max-w-md left-1/2 -translate-x-1/2"
           style={{ transformOrigin: "center center" }}
         >
           <div className="space-y-2 md:space-y-4 text-center backdrop-blur-md p-4 md:p-6 lg:p-8 rounded-lg">
@@ -245,7 +191,7 @@ export default function HowItWorks() {
 
         <div
           ref={step3Ref}
-          className="hidden md:block absolute w-[90%] max-w-md"
+          className="hidden md:block absolute w-[85%] sm:w-[75%] md:w-[65%] lg:w-[55%] max-w-md right-[5%] md:right-[10%] lg:right-[15%]"
           style={{ transformOrigin: "center center" }}
         >
           <div className="space-y-2 md:space-y-4 text-center backdrop-blur-md p-4 md:p-6 lg:p-8 rounded-lg">
