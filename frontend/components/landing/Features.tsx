@@ -1,8 +1,19 @@
 "use client";
 
 import { Card } from "@/components/ui/card";
+import {
+  useStaggeredAnimation,
+  useScrollAnimation,
+} from "@/hooks/useScrollAnimation";
 
 export default function Features() {
+  const { elementRef: headerRef, isVisible: headerVisible } =
+    useScrollAnimation();
+  const { elementRef: featuresRef, visibleItems } = useStaggeredAnimation(
+    6,
+    100
+  );
+
   const features = [
     {
       icon: "🎤",
@@ -55,7 +66,12 @@ export default function Features() {
 
       <div className="container mx-auto px-6 relative z-10">
         {/* Section Header */}
-        <div className="text-center mb-20 space-y-4 animate-slide-up">
+        <div
+          ref={headerRef}
+          className={`text-center mb-20 space-y-4 memory-fade-up ${
+            headerVisible ? "visible" : ""
+          }`}
+        >
           <h2 className="text-5xl lg:text-6xl font-serif font-bold text-[#3E2723]">
             Built with love and care
           </h2>
@@ -65,12 +81,16 @@ export default function Features() {
         </div>
 
         {/* Features Grid */}
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
+        <div
+          ref={featuresRef}
+          className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto"
+        >
           {features.map((feature, index) => (
             <Card
               key={index}
-              className="group p-8 bg-white border-2 border-[#E5D5C3] hover:border-[#8B7355] transition-all duration-300 hover:shadow-2xl hover:-translate-y-2 relative overflow-hidden animate-scale-in"
-              style={{ animationDelay: `${index * 0.1}s` }}
+              className={`group p-8 bg-white border-2 border-[#E5D5C3] hover:border-[#8B7355] transition-all duration-300 hover:shadow-2xl hover:-translate-y-2 relative overflow-hidden memory-reveal ${
+                visibleItems.has(index) ? "visible" : ""
+              }`}
             >
               {/* Gradient Background on Hover */}
               <div

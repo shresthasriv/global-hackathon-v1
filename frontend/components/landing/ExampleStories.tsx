@@ -3,9 +3,20 @@
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
+import {
+  useScrollAnimation,
+  useStaggeredAnimation,
+} from "@/hooks/useScrollAnimation";
 
 export default function ExampleStories() {
   const [activeStory, setActiveStory] = useState(0);
+  const { elementRef: headerRef, isVisible: headerVisible } =
+    useScrollAnimation();
+  const { elementRef: storyRef, isVisible: storyVisible } = useScrollAnimation({
+    threshold: 0.2,
+  });
+  const { elementRef: galleryRef, visibleItems: visibleCards } =
+    useStaggeredAnimation(3, 150);
 
   const stories = [
     {
@@ -68,7 +79,12 @@ export default function ExampleStories() {
 
       <div className="container mx-auto px-6 relative z-10">
         {/* Section Header */}
-        <div className="text-center mb-20 space-y-4 animate-slide-up">
+        <div
+          ref={headerRef}
+          className={`text-center mb-20 space-y-4 memory-fade-up ${
+            headerVisible ? "visible" : ""
+          }`}
+        >
           <h2 className="text-5xl lg:text-6xl font-serif font-bold text-[#3E2723]">
             Stories Worth Preserving
           </h2>
@@ -96,7 +112,12 @@ export default function ExampleStories() {
         </div>
 
         {/* Featured Story */}
-        <div className="max-w-4xl mx-auto mb-16 animate-fade-in">
+        <div
+          ref={storyRef}
+          className={`max-w-4xl mx-auto mb-16 memory-bloom ${
+            storyVisible ? "visible" : ""
+          }`}
+        >
           <Card className="bg-white border-4 border-[#8B7355]/20 shadow-2xl overflow-hidden hover:shadow-3xl transition-shadow duration-500">
             {/* Story Header with Gradient */}
             <div
@@ -177,12 +198,17 @@ export default function ExampleStories() {
         </div>
 
         {/* Story Gallery Grid */}
-        <div className="grid md:grid-cols-3 gap-6 max-w-6xl mx-auto">
+        <div
+          ref={galleryRef}
+          className="grid md:grid-cols-3 gap-6 max-w-6xl mx-auto"
+        >
           {stories.map((story, index) => (
             <Card
               key={index}
               onClick={() => setActiveStory(index)}
-              className={`cursor-pointer transition-all duration-300 hover:shadow-xl hover:-translate-y-2 ${
+              className={`cursor-pointer transition-all duration-300 hover:shadow-xl hover:-translate-y-2 memory-float-in ${
+                visibleCards.has(index) ? "visible" : ""
+              } ${
                 activeStory === index
                   ? "ring-4 ring-[#8B7355] shadow-2xl"
                   : "bg-white border border-[#E5D5C3]"

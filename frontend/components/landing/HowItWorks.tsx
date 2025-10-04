@@ -1,8 +1,11 @@
 "use client";
 
 import { Card } from "@/components/ui/card";
+import { useStaggeredAnimation } from "@/hooks/useScrollAnimation";
 
 export default function HowItWorks() {
+  const { elementRef: stepsRef, visibleItems } = useStaggeredAnimation(3, 200);
+
   const steps = [
     {
       number: "1",
@@ -50,12 +53,16 @@ export default function HowItWorks() {
         </div>
 
         {/* Steps */}
-        <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+        <div
+          ref={stepsRef}
+          className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto"
+        >
           {steps.map((step, index) => (
             <div
               key={step.number}
-              className="relative animate-slide-up"
-              style={{ animationDelay: `${index * 0.2}s` }}
+              className={`relative memory-float-in ${
+                visibleItems.has(index) ? "visible" : ""
+              }`}
             >
               {/* Connecting Line (hidden on mobile) */}
               {index < steps.length - 1 && (

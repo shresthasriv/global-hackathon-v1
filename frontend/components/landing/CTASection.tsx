@@ -1,10 +1,13 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
+import { useScrollAnimation } from "@/hooks/useScrollAnimation";
 
 export default function CTASection() {
+  const { elementRef, isVisible } = useScrollAnimation({ threshold: 0.3 });
+
   return (
-    <section className="py-24 relative overflow-hidden">
+    <section ref={elementRef} className="py-24 relative overflow-hidden">
       {/* Animated Gradient Background */}
       <div className="absolute inset-0 bg-gradient-to-br from-[#E8B4A0] via-[#FFF8F0] to-[#A8B89F] animate-gradient bg-[length:200%_200%]" />
 
@@ -24,18 +27,30 @@ export default function CTASection() {
       <div className="container mx-auto px-6 relative z-10">
         <div className="max-w-4xl mx-auto text-center space-y-8">
           {/* Main Headline */}
-          <h2 className="text-4xl lg:text-6xl font-serif font-bold text-[#3E2723] leading-tight animate-slide-up text-balance">
+          <h2
+            className={`text-4xl lg:text-6xl font-serif font-bold text-[#3E2723] leading-tight text-balance memory-fade-up ${
+              isVisible ? "visible" : ""
+            }`}
+          >
             Don&apos;t let precious memories fade
           </h2>
 
           {/* Subheadline */}
-          <p className="text-xl lg:text-2xl text-[#5D5D5D] leading-relaxed max-w-2xl mx-auto animate-fade-in">
+          <p
+            className={`text-xl lg:text-2xl text-[#5D5D5D] leading-relaxed max-w-2xl mx-auto memory-reveal ${
+              isVisible ? "visible" : ""
+            }`}
+            style={{ transitionDelay: "0.2s" }}
+          >
             Start preserving your family&apos;s stories today—it&apos;s free and
             takes just 30 seconds to begin
           </p>
 
           {/* CTA Button */}
-          <div className="pt-8 animate-scale-in">
+          <div
+            className={`pt-8 memory-bloom ${isVisible ? "visible" : ""}`}
+            style={{ transitionDelay: "0.4s" }}
+          >
             <Button
               size="lg"
               className="bg-[#3E2723] hover:bg-[#2d1f1a] text-white text-xl px-12 py-8 rounded-2xl shadow-2xl hover:shadow-3xl transition-all duration-300 hover:scale-105 group"

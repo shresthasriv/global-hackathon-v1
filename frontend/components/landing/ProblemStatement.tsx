@@ -1,11 +1,17 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { useScrollAnimation } from "@/hooks/useScrollAnimation";
 
 export default function ProblemStatement() {
   const [count, setCount] = useState(0);
   const [isVisible, setIsVisible] = useState(false);
   const sectionRef = useRef<HTMLDivElement>(null);
+  const { elementRef: textRef, isVisible: textVisible } = useScrollAnimation({
+    threshold: 0.2,
+  });
+  const { elementRef: timelineRef, isVisible: timelineVisible } =
+    useScrollAnimation({ threshold: 0.3 });
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -84,7 +90,12 @@ export default function ProblemStatement() {
           </div>
 
           {/* Supporting Text */}
-          <div className="max-w-2xl mx-auto space-y-6 animate-fade-in">
+          <div
+            ref={textRef}
+            className={`max-w-2xl mx-auto space-y-6 memory-fade-up ${
+              textVisible ? "visible" : ""
+            }`}
+          >
             <p className="text-xl lg:text-2xl text-[#5D5D5D] leading-relaxed">
               Every day, precious memories fade away. The story of how grandma
               met grandpa. The family recipe passed down through generations.
@@ -92,16 +103,21 @@ export default function ProblemStatement() {
             </p>
 
             <p className="text-lg lg:text-xl text-[#5D5D5D] leading-relaxed">
-              These aren't just stories—they're your family's legacy. And
-              they're disappearing.
+              These aren&apos;t just stories—they&apos;re your family&apos;s
+              legacy. And they&apos;re disappearing.
             </p>
           </div>
 
           {/* Visual Element - Timeline */}
-          <div className="pt-8">
+          <div ref={timelineRef} className="pt-8">
             <div className="flex items-center justify-center gap-4 flex-wrap">
               {/* Generation 1 */}
-              <div className="flex flex-col items-center gap-2 opacity-100 animate-slide-up">
+              <div
+                className={`flex flex-col items-center gap-2 memory-gather-left ${
+                  timelineVisible ? "visible" : ""
+                }`}
+                style={{ transitionDelay: "0.1s" }}
+              >
                 <div className="w-20 h-20 rounded-full bg-[#8B7355] flex items-center justify-center text-3xl shadow-lg">
                   👴🏻
                 </div>
@@ -110,15 +126,22 @@ export default function ProblemStatement() {
                 </span>
               </div>
 
-              <div className="flex items-center gap-2">
+              <div
+                className={`flex items-center gap-2 memory-reveal ${
+                  timelineVisible ? "visible" : ""
+                }`}
+                style={{ transitionDelay: "0.2s" }}
+              >
                 <div className="w-12 h-1 bg-gradient-to-r from-[#8B7355] to-[#5D5D5D]" />
                 <ArrowRight className="w-6 h-6 text-[#5D5D5D]" />
               </div>
 
               {/* Generation 2 */}
               <div
-                className="flex flex-col items-center gap-2 opacity-70 animate-slide-up"
-                style={{ animationDelay: "0.2s" }}
+                className={`flex flex-col items-center gap-2 opacity-70 memory-reveal ${
+                  timelineVisible ? "visible" : ""
+                }`}
+                style={{ transitionDelay: "0.3s" }}
               >
                 <div className="w-20 h-20 rounded-full bg-[#A8B89F] flex items-center justify-center text-3xl shadow-lg">
                   👨🏻
@@ -128,15 +151,22 @@ export default function ProblemStatement() {
                 </span>
               </div>
 
-              <div className="flex items-center gap-2">
+              <div
+                className={`flex items-center gap-2 memory-reveal ${
+                  timelineVisible ? "visible" : ""
+                }`}
+                style={{ transitionDelay: "0.4s" }}
+              >
                 <div className="w-12 h-1 bg-gradient-to-r from-[#A8B89F] to-[#9E9E8E]" />
                 <ArrowRight className="w-6 h-6 text-[#9E9E8E]" />
               </div>
 
               {/* Generation 3 */}
               <div
-                className="flex flex-col items-center gap-2 opacity-30 animate-slide-up"
-                style={{ animationDelay: "0.4s" }}
+                className={`flex flex-col items-center gap-2 opacity-30 memory-reveal ${
+                  timelineVisible ? "visible" : ""
+                }`}
+                style={{ transitionDelay: "0.5s" }}
               >
                 <div className="w-20 h-20 rounded-full bg-[#E5D5C3] flex items-center justify-center text-3xl shadow-lg">
                   👧🏻
@@ -146,7 +176,12 @@ export default function ProblemStatement() {
                 </span>
               </div>
 
-              <div className="flex items-center gap-2">
+              <div
+                className={`flex items-center gap-2 memory-reveal ${
+                  timelineVisible ? "visible" : ""
+                }`}
+                style={{ transitionDelay: "0.6s" }}
+              >
                 <div className="w-12 h-1 bg-gradient-to-r from-[#E5D5C3] to-transparent" />
                 <span className="text-2xl opacity-20">❓</span>
               </div>
