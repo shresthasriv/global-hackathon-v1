@@ -161,6 +161,9 @@ export default function Features() {
           </div>
         </div>
       </div>
+
+      {/* Fade Transition to Next Section with Animated Gradient */}
+      <div className="absolute bottom-0 left-0 right-0 h-200 bg-gradient-to-b from-white/0 via-white/20 via-[#FFF8F0]/60 to-[#E8B4A0]/40 pointer-events-none animate-gradient bg-[length:200%_200%]" />
     </section>
   );
 }

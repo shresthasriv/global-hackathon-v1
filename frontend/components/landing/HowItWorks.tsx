@@ -205,6 +205,9 @@ export default function HowItWorks() {
           </div>
         </div>
       </div>
+
+      {/* Fade Transition to Next Section */}
+      <div className="absolute bottom-0 left-0 right-0 h-96 bg-gradient-to-b from-white/0 via-white/20 via-[#FFF8F0]/60 to-[#8B7355]/10 pointer-events-none" />
     </section>
   );
 }
