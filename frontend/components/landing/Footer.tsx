@@ -49,9 +49,6 @@ export default function Footer() {
             </div>
           </div>
 
-          <h3 className="text-2xl font-serif font-bold text-white mb-4">
-            Evermore
-          </h3>
           <p className="text-lg text-white/70 leading-relaxed italic font-serif">
             &quot;In every old person there is a young person wondering what
             happened.&quot;
@@ -80,20 +77,6 @@ export default function Footer() {
               families capture what matters most—before it&apos;s too late.
             </p>
             <div className="flex items-center gap-3 text-sm text-white/60">
-              <span className="flex items-center gap-2">
-                <svg
-                  className="w-4 h-4 text-[#D4AF37]"
-                  fill="currentColor"
-                  viewBox="0 0 20 20"
-                >
-                  <path
-                    fillRule="evenodd"
-                    d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
-                    clipRule="evenodd"
-                  />
-                </svg>
-                Free Forever
-              </span>
               <span className="flex items-center gap-2">
                 <svg
                   className="w-4 h-4 text-[#D4AF37]"
@@ -229,7 +212,7 @@ export default function Footer() {
           className={`relative memory-fade-up ${isVisible ? "visible" : ""}`}
           style={{ transitionDelay: "0.4s" }}
         >
-          <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-white/20 to-transparent" />
+          {/* <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-white/20 to-transparent" /> */}
 
           <div className="pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
             <p className="text-white/50 text-sm text-center md:text-left">
@@ -243,6 +226,15 @@ export default function Footer() {
             <div className="flex items-center gap-4 text-sm text-white/50">
               <span>Preserving memories, one story at a time</span>
             </div>
+          </div>
+        </div>
+
+        {/* Large Cutoff Brand Name */}
+        <div className="absolute bottom-0 left-0 right-0 overflow-hidden h-32 md:h-40 lg:h-48">
+          <div className="text-center">
+            <h1 className="text-[10rem] md:text-[14rem] lg:text-[18rem] font-serif font-black text-white/10 tracking-tight leading-none transform hover:scale-105 transition-transform duration-500 cursor-default select-none">
+              Evermore
+            </h1>
           </div>
         </div>
       </div>

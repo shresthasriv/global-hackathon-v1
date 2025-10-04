@@ -57,102 +57,102 @@ export default function ProblemStatement() {
           {/* Supporting Text */}
           <div
             ref={textRef}
-            className={`max-w-2xl mx-auto space-y-6 memory-fade-up ${
+            className={`max-w-2xl mx-auto space-y-4 md:space-y-6 memory-fade-up ${
               textVisible ? "visible" : ""
             }`}
           >
-            <p className="text-xl lg:text-2xl text-[#5D5D5D] leading-relaxed">
+            <p className="text-base md:text-lg lg:text-2xl text-[#5D5D5D] leading-relaxed">
               Every day, precious memories fade away. The story of how grandma
               met grandpa. The family recipe passed down through generations.
               The wisdom earned from a lifetime of experiences.
             </p>
 
-            <p className="text-lg lg:text-xl text-[#5D5D5D] leading-relaxed">
+            <p className="text-sm md:text-base lg:text-xl text-[#5D5D5D] leading-relaxed">
               These aren&apos;t just stories—they&apos;re your family&apos;s
               legacy. And they&apos;re disappearing.
             </p>
           </div>
 
           {/* Visual Element - Timeline */}
-          <div ref={timelineRef} className="pt-8">
-            <div className="flex items-center justify-center gap-4 flex-wrap">
+          <div ref={timelineRef} className="pt-6 md:pt-8">
+            <div className="flex items-center justify-center gap-2 md:gap-4 flex-wrap">
               {/* Generation 1 */}
               <div
-                className={`flex flex-col items-center gap-2 memory-gather-left ${
+                className={`flex flex-col items-center gap-1 md:gap-2 memory-gather-left ${
                   timelineVisible ? "visible" : ""
                 }`}
                 style={{ transitionDelay: "0.1s" }}
               >
-                <div className="w-20 h-20 rounded-full bg-[#8B7355] flex items-center justify-center text-3xl shadow-lg">
+                <div className="w-14 h-14 md:w-20 md:h-20 rounded-full bg-[#8B7355] flex items-center justify-center text-2xl md:text-3xl shadow-lg">
                   👴🏻
                 </div>
-                <span className="text-sm text-[#5D5D5D] font-medium">
+                <span className="text-xs md:text-sm text-[#5D5D5D] font-medium">
                   Generation 1
                 </span>
               </div>
 
               <div
-                className={`flex items-center gap-2 memory-reveal ${
+                className={`flex items-center gap-1 md:gap-2 memory-reveal ${
                   timelineVisible ? "visible" : ""
                 }`}
                 style={{ transitionDelay: "0.2s" }}
               >
-                <div className="w-12 h-1 bg-gradient-to-r from-[#8B7355] to-[#5D5D5D]" />
-                <ArrowRight className="w-6 h-6 text-[#5D5D5D]" />
+                <div className="w-6 md:w-12 h-0.5 md:h-1 bg-gradient-to-r from-[#8B7355] to-[#5D5D5D]" />
+                <ArrowRight className="w-4 h-4 md:w-6 md:h-6 text-[#5D5D5D]" />
               </div>
 
               {/* Generation 2 */}
               <div
-                className={`flex flex-col items-center gap-2 opacity-70 memory-reveal ${
+                className={`flex flex-col items-center gap-1 md:gap-2 opacity-70 memory-reveal ${
                   timelineVisible ? "visible" : ""
                 }`}
                 style={{ transitionDelay: "0.3s" }}
               >
-                <div className="w-20 h-20 rounded-full bg-[#A8B89F] flex items-center justify-center text-3xl shadow-lg">
+                <div className="w-14 h-14 md:w-20 md:h-20 rounded-full bg-[#A8B89F] flex items-center justify-center text-2xl md:text-3xl shadow-lg">
                   👨🏻
                 </div>
-                <span className="text-sm text-[#5D5D5D] font-medium">
+                <span className="text-xs md:text-sm text-[#5D5D5D] font-medium">
                   Generation 2
                 </span>
               </div>
 
               <div
-                className={`flex items-center gap-2 memory-reveal ${
+                className={`flex items-center gap-1 md:gap-2 memory-reveal ${
                   timelineVisible ? "visible" : ""
                 }`}
                 style={{ transitionDelay: "0.4s" }}
               >
-                <div className="w-12 h-1 bg-gradient-to-r from-[#A8B89F] to-[#9E9E8E]" />
-                <ArrowRight className="w-6 h-6 text-[#9E9E8E]" />
+                <div className="w-6 md:w-12 h-0.5 md:h-1 bg-gradient-to-r from-[#A8B89F] to-[#9E9E8E]" />
+                <ArrowRight className="w-4 h-4 md:w-6 md:h-6 text-[#9E9E8E]" />
               </div>
 
               {/* Generation 3 */}
               <div
-                className={`flex flex-col items-center gap-2 opacity-30 memory-reveal ${
+                className={`flex flex-col items-center gap-1 md:gap-2 opacity-30 memory-reveal ${
                   timelineVisible ? "visible" : ""
                 }`}
                 style={{ transitionDelay: "0.5s" }}
               >
-                <div className="w-20 h-20 rounded-full bg-[#E5D5C3] flex items-center justify-center text-3xl shadow-lg">
+                <div className="w-14 h-14 md:w-20 md:h-20 rounded-full bg-[#E5D5C3] flex items-center justify-center text-2xl md:text-3xl shadow-lg">
                   👧🏻
                 </div>
-                <span className="text-sm text-[#5D5D5D] font-medium">
+                <span className="text-xs md:text-sm text-[#5D5D5D] font-medium">
                   Generation 3
                 </span>
               </div>
 
               <div
-                className={`flex items-center gap-2 memory-reveal ${
+                className={`flex items-center gap-1 md:gap-2 memory-reveal ${
                   timelineVisible ? "visible" : ""
                 }`}
                 style={{ transitionDelay: "0.6s" }}
               >
-                <div className="w-12 h-1 bg-gradient-to-r from-[#E5D5C3] to-transparent" />
-                <span className="text-2xl opacity-20">❓</span>
+                <div className="w-6 md:w-12 h-0.5 md:h-1 bg-gradient-to-r from-[#E5D5C3] to-transparent" />
+                <span className="text-xl md:text-2xl opacity-20">❓</span>
               </div>
             </div>
 
-            <p className="text-sm text-[#9E9E8E] mt-6 italic">
+            <p className="text-xs md:text-sm text-[#9E9E8E] mt-4 md:mt-6 italic">
               Stories fade with each passing generation
             </p>
           </div>
