@@ -11,11 +11,13 @@ import {
   Keyboard,
   MessageSquare,
   AlertCircle,
+  BookOpen,
 } from "lucide-react";
 import {
   getMemorySpace,
   getInitialPrompt,
   sendMessage,
+  convertSessionToBlog,
   type ConversationMessage,
 } from "@/lib/api/dummy";
 import { useSpeechRecognition } from "@/hooks/useSpeechRecognition";
@@ -30,6 +32,7 @@ function ConversationContent() {
   const [loading, setLoading] = useState(true);
   const [sending, setSending] = useState(false);
   const [mode, setMode] = useState<"voice" | "text">("text");
+  const [convertingToBlog, setConvertingToBlog] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   const token = params.token as string;
@@ -144,6 +147,36 @@ function ConversationContent() {
 
   const toggleMode = () => {
     setMode(mode === "voice" ? "text" : "voice");
+  };
+
+  const handleConvertToBlog = async () => {
+    if (!memorySpace || messages.length <= 1) {
+      alert("Please have a conversation first before converting to a blog.");
+      return;
+    }
+
+    const confirmConvert = window.confirm(
+      "Would you like to convert this conversation into a beautiful memory blog?"
+    );
+
+    if (!confirmConvert) return;
+
+    setConvertingToBlog(true);
+
+    try {
+      const blog = await convertSessionToBlog({
+        memory_space_id: memorySpace.id,
+        session_messages: messages,
+      });
+
+      alert("Memory blog created successfully!");
+      router.push(`/blogs/${blog.id}`);
+    } catch (error) {
+      console.error("Error converting to blog:", error);
+      alert("Failed to create blog. Please try again.");
+    } finally {
+      setConvertingToBlog(false);
+    }
   };
 
   if (loading) {
@@ -346,6 +379,22 @@ function ConversationContent() {
               <p className="text-center text-xs text-[#8B7355]/70 mt-2">
                 Take your time. Every memory is precious. ✨
               </p>
+            )}
+
+            {/* Convert to Blog Button */}
+            {messages.length > 1 && !isListening && (
+              <div className="mt-6 flex justify-center">
+                <Button
+                  onClick={handleConvertToBlog}
+                  disabled={convertingToBlog || sending}
+                  className="bg-gradient-to-r from-[#D4AF37] to-[#F4C430] hover:from-[#C4A137] hover:to-[#E4B420] text-[#3E2723] font-semibold shadow-lg"
+                >
+                  <BookOpen className="w-5 h-5 mr-2" />
+                  {convertingToBlog
+                    ? "Creating Memory Blog..."
+                    : "Convert to Memory Blog"}
+                </Button>
+              </div>
             )}
           </div>
         </div>

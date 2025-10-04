@@ -1,10 +1,38 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import { ArrowRight } from "lucide-react";
+import { BookOpen, User, LogOut, ArrowRight } from "lucide-react";
+import SignInModal from "@/components/SignInModal";
+import { getUserFromStorage } from "@/lib/api/dummy";
 
 export default function Hero() {
+  const [user, setUser] = useState<any>(null);
+  const [showSignInModal, setShowSignInModal] = useState(false);
+
+  useEffect(() => {
+    // Check if user is already signed in
+    const currentUser = getUserFromStorage();
+    if (currentUser) {
+      setUser(currentUser);
+    }
+  }, []);
+
+  const handleSignOut = () => {
+    localStorage.removeItem("current_user");
+    setUser(null);
+    window.location.reload();
+  };
+
+  const handleSignInSuccess = () => {
+    // Refresh user state after successful sign in
+    const currentUser = getUserFromStorage();
+    if (currentUser) {
+      setUser(currentUser);
+    }
+  };
+
   return (
     <section className="relative min-h-screen flex items-center overflow-hidden bg-gradient-to-br from-[#FFF8F0] via-[#FFF8F0] to-[#F5EEE6]">
       {/* Animated Background Patterns */}
@@ -139,23 +167,74 @@ export default function Hero() {
             </p>
 
             {/* CTA Buttons */}
-            <div className="flex flex-col sm:flex-row gap-4 pt-4">
-              <Link href="/onboarding/step-1">
-                <Button
-                  size="lg"
-                  className="bg-[#E8B4A0] hover:bg-[#d9a391] text-white text-lg px-8 py-6 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105"
-                >
-                  Start Preserving Memories
-                  <ArrowRight className="ml-2 h-5 w-5" />
-                </Button>
-              </Link>
-              <Button
-                size="lg"
-                variant="outline"
-                className="border-2 border-[#8B7355] text-[#8B7355] hover:bg-[#8B7355] hover:text-white text-lg px-8 py-6 rounded-xl transition-all duration-300"
-              >
-                Watch Demo
-              </Button>
+            <div className="space-y-6 pt-4">
+              {user ? (
+                // Signed in state
+                <div className="space-y-4">
+                  <div className="flex items-center gap-3 p-4 bg-white border-2 border-[#E5D5C3] rounded-xl">
+                    <div className="w-10 h-10 rounded-full bg-gradient-to-br from-[#8B7355] to-[#D4AF37] flex items-center justify-center">
+                      <User className="w-5 h-5 text-white" />
+                    </div>
+                    <div className="flex-1">
+                      <p className="font-semibold text-[#3E2723]">
+                        {user.name}
+                      </p>
+                      <p className="text-sm text-[#8B7355]">{user.email}</p>
+                    </div>
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={handleSignOut}
+                      className="text-[#8B7355] hover:text-[#3E2723]"
+                    >
+                      <LogOut className="w-4 h-4" />
+                    </Button>
+                  </div>
+
+                  <div className="flex flex-col sm:flex-row gap-4">
+                    <Link href="/blogs" className="flex-1">
+                      <Button
+                        size="lg"
+                        className="w-full bg-gradient-to-r from-[#8B7355] to-[#A0826D] hover:from-[#7A6348] hover:to-[#8B7355] text-white text-lg px-8 py-6 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105"
+                      >
+                        <BookOpen className="mr-2 h-5 w-5" />
+                        My Memory Blogs
+                      </Button>
+                    </Link>
+                    <Link href="/onboarding/step-2" className="flex-1">
+                      <Button
+                        size="lg"
+                        variant="outline"
+                        className="w-full border-2 border-[#E8B4A0] text-[#E8B4A0] hover:bg-[#E8B4A0] hover:text-white text-lg px-8 py-6 rounded-xl transition-all duration-300"
+                      >
+                        Capture New Memory
+                        <ArrowRight className="ml-2 h-5 w-5" />
+                      </Button>
+                    </Link>
+                  </div>
+                </div>
+              ) : (
+                // Not signed in state
+                <div className="space-y-4">
+                  <div className="flex flex-col sm:flex-row gap-4">
+                    <Button
+                      size="lg"
+                      onClick={() => setShowSignInModal(true)}
+                      className="bg-[#E8B4A0] hover:bg-[#d9a391] text-white text-lg px-8 py-6 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105"
+                    >
+                      Start Preserving Memories
+                      <BookOpen className="ml-2 h-5 w-5" />
+                    </Button>
+                    <Button
+                      size="lg"
+                      variant="outline"
+                      className="border-2 border-[#8B7355] text-[#8B7355] hover:bg-[#8B7355] hover:text-white text-lg px-8 py-6 rounded-xl transition-all duration-300"
+                    >
+                      Watch Demo
+                    </Button>
+                  </div>
+                </div>
+              )}
             </div>
 
             {/* Trust Signals */}
@@ -202,6 +281,13 @@ export default function Hero() {
 
       {/* Fade Transition to Next Section */}
       <div className="absolute bottom-0 left-0 right-0 h-96 bg-gradient-to-b from-[#FFF8F0]/0 via-[#FFF8F0]/40 via-[#F5EEE6]/70 to-[#F5EEE6] pointer-events-none" />
+
+      {/* Sign In Modal */}
+      <SignInModal
+        isOpen={showSignInModal}
+        onClose={() => setShowSignInModal(false)}
+        onSuccess={handleSignInSuccess}
+      />
     </section>
   );
 }

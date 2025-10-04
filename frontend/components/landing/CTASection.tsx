@@ -1,11 +1,32 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
+import { ArrowRight, BookOpen } from "lucide-react";
 import { useScrollAnimation } from "@/hooks/useScrollAnimation";
+import SignInModal from "@/components/SignInModal";
+import { getUserFromStorage } from "@/lib/api/dummy";
 
 export default function CTASection() {
   const { elementRef, isVisible } = useScrollAnimation({ threshold: 0.3 });
+  const [user, setUser] = useState<any>(null);
+  const [showSignInModal, setShowSignInModal] = useState(false);
+
+  useEffect(() => {
+    const currentUser = getUserFromStorage();
+    if (currentUser) {
+      setUser(currentUser);
+    }
+  }, []);
+
+  const handleSignInSuccess = () => {
+    // Refresh user state after successful sign in
+    const currentUser = getUserFromStorage();
+    if (currentUser) {
+      setUser(currentUser);
+    }
+  };
 
   return (
     <section ref={elementRef} className="py-24 relative overflow-hidden">
@@ -51,9 +72,46 @@ export default function CTASection() {
             className={`pt-8 memory-bloom ${isVisible ? "visible" : ""}`}
             style={{ transitionDelay: "0.4s" }}
           >
-            <Link href="/onboarding/step-1">
+            {user ? (
+              // Signed in - show blogs button
+              <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                <Link href="/blogs">
+                  <Button
+                    size="lg"
+                    className="bg-gradient-to-r from-[#8B7355] to-[#A0826D] hover:from-[#7A6348] hover:to-[#8B7355] text-white text-xl px-12 py-8 rounded-2xl shadow-2xl hover:shadow-3xl transition-all duration-300 hover:scale-105 group"
+                  >
+                    <BookOpen className="mr-3 w-6 h-6" />
+                    View My Blogs
+                    <svg
+                      className="ml-3 w-6 h-6 group-hover:translate-x-2 transition-transform"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M13 7l5 5m0 0l-5 5m5-5H6"
+                      />
+                    </svg>
+                  </Button>
+                </Link>
+                <Link href="/onboarding/step-2">
+                  <Button
+                    size="lg"
+                    variant="outline"
+                    className="border-2 border-white text-[#3E2723] bg-white hover:bg-[#3E2723] hover:text-white text-xl px-12 py-8 rounded-2xl transition-all duration-300"
+                  >
+                    Capture New Memory
+                  </Button>
+                </Link>
+              </div>
+            ) : (
+              // Show start button
               <Button
                 size="lg"
+                onClick={() => setShowSignInModal(true)}
                 className="bg-[#3E2723] hover:bg-[#2d1f1a] text-white text-xl px-12 py-8 rounded-2xl shadow-2xl hover:shadow-3xl transition-all duration-300 hover:scale-105 group"
               >
                 Start Your First Memory
@@ -71,7 +129,7 @@ export default function CTASection() {
                   />
                 </svg>
               </Button>
-            </Link>
+            )}
           </div>
 
           {/* Trust Signals */}
@@ -136,6 +194,13 @@ export default function CTASection() {
 
       {/* Cloudy Fade Transition to Footer */}
       {/* <div className="absolute bottom-0 left-0 right-0 h-[400px] bg-gradient-to-b from-[#E8B4A0]/0 via-[#A8B89F]/8 via-[#8B7355]/15 via-[#5d4a3e]/40 to-[#3E2723] pointer-events-none" /> */}
+
+      {/* Sign In Modal */}
+      <SignInModal
+        isOpen={showSignInModal}
+        onClose={() => setShowSignInModal(false)}
+        onSuccess={handleSignInSuccess}
+      />
     </section>
   );
 }

@@ -6,7 +6,11 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { ArrowRight, Sparkles } from "lucide-react";
-import { createOrUpdateUser, getUserFromStorage } from "@/lib/api/dummy";
+import { 
+  createOrUpdateUser, 
+  getUserFromStorage, 
+  checkUserHasBlogs 
+} from "@/lib/api/dummy";
 
 export default function OnboardingStep1() {
   const router = useRouter();
@@ -21,8 +25,16 @@ export default function OnboardingStep1() {
     // Check if user is already authenticated
     const user = getUserFromStorage();
     if (user) {
-      // User exists, skip to step 2
-      router.push("/onboarding/step-2");
+      // User exists, check if they have blogs
+      checkUserHasBlogs(user.email).then((hasBlogs) => {
+        if (hasBlogs) {
+          // Redirect to blogs page
+          router.push("/blogs");
+        } else {
+          // Continue to step 2
+          router.push("/onboarding/step-2");
+        }
+      });
     } else {
       setCheckingAuth(false);
     }
@@ -57,8 +69,16 @@ export default function OnboardingStep1() {
         email: formData.email,
       });
 
-      // Navigate to step 2 (grandparent details)
-      router.push("/onboarding/step-2");
+      // Check if user has existing blogs
+      const hasBlogs = await checkUserHasBlogs(formData.email);
+      
+      if (hasBlogs) {
+        // User has previous blogs, show them
+        router.push("/blogs");
+      } else {
+        // New user, continue to step 2
+        router.push("/onboarding/step-2");
+      }
     } catch (error) {
       console.error("Error creating user:", error);
       alert("Something went wrong. Please try again.");
