@@ -158,6 +158,9 @@ export default function Hero() {
           <div className="w-1 h-3 bg-[#8B7355] rounded-full animate-pulse" />
         </div>
       </div> */}
+
+      {/* Fade Transition to Next Section */}
+      <div className="absolute bottom-0 left-0 right-0 h-96 bg-gradient-to-b from-[#FFF8F0]/0 via-[#FFF8F0]/40 via-[#F5EEE6]/70 to-[#F5EEE6] pointer-events-none" />
     </section>
   );
 }

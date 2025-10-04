@@ -193,6 +193,9 @@ export default function ProblemStatement() {
           </div>
         </div>
       </div>
+
+      {/* Fade Transition to Next Section */}
+      <div className="absolute bottom-0 left-0 right-0 h-96 bg-gradient-to-b from-[#F5EEE6]/0 via-[#F5EEE6]/30 via-[#FEFEFE]/70 to-white pointer-events-none" />
     </section>
   );
 }

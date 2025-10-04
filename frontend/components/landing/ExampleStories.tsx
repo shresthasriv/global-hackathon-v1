@@ -234,6 +234,9 @@ export default function ExampleStories() {
           ))}
         </div>
       </div>
+
+      {/* Fade Transition to Next Section */}
+      <div className="absolute bottom-0 left-0 right-0 h-96 bg-gradient-to-b from-[#A8B89F]/0 via-[#FFF8F0]/30 via-[#FEFEFE]/70 to-white pointer-events-none" />
     </section>
   );
 }
