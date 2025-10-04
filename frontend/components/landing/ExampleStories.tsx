@@ -259,22 +259,28 @@ export default function ExampleStories() {
       </div>
 
       {/* Additional Value Props */}
-      <div className="mt-20 max-w-4xl mx-auto flex justify-center gap-40">
+      <div className="mt-12 md:mt-20 max-w-4xl mx-auto flex flex-col md:flex-row justify-center items-center gap-12 md:gap-20 lg:gap-40 px-6">
         <div
-          className="space-y-2 animate-fade-in"
+          className="space-y-2 animate-fade-in text-center"
           style={{ animationDelay: "0.8s" }}
         >
-          <div className="text-4xl font-serif font-bold text-[#8B7355]">
+          <div className="text-3xl md:text-4xl font-serif font-bold text-[#8B7355]">
             30s
           </div>
-          <div className="text-[#5D5D5D]">To get started</div>
+          <div className="text-sm md:text-base text-[#5D5D5D]">
+            To get started
+          </div>
         </div>
         <div
-          className="space-y-2 animate-fade-in"
+          className="space-y-2 animate-fade-in text-center"
           style={{ animationDelay: "1s" }}
         >
-          <div className="text-4xl font-serif font-bold text-[#8B7355]">∞</div>
-          <div className="text-[#5D5D5D]">Memories preserved</div>
+          <div className="text-3xl md:text-4xl font-serif font-bold text-[#8B7355]">
+            ∞
+          </div>
+          <div className="text-sm md:text-base text-[#5D5D5D]">
+            Memories preserved
+          </div>
         </div>
       </div>
 

@@ -17,97 +17,111 @@ export default function HowItWorks() {
     const ctx = gsap.context(() => {
       if (!sectionRef.current || !containerRef.current) return;
 
-      const tl = gsap.timeline({
-        scrollTrigger: {
-          trigger: sectionRef.current,
-          start: "top top",
-          end: "+=3000",
-          scrub: 1,
-          pin: true,
-          anticipatePin: 1,
-        },
-      });
+      // Check if mobile
+      const isMobile = window.innerWidth < 768;
 
-      gsap.set([step1Ref.current, step2Ref.current, step3Ref.current], {
-        y: "100vh",
-        x: 0,
-        opacity: 0,
-        scale: 0.8,
-      });
+      if (isMobile) {
+        // On mobile, just show all cards stacked - no animation needed
+        gsap.set([step1Ref.current, step2Ref.current, step3Ref.current], {
+          y: 0,
+          x: 0,
+          opacity: 1,
+          scale: 1,
+        });
+      } else {
+        // Desktop animation with horizontal movement
+        const tl = gsap.timeline({
+          scrollTrigger: {
+            trigger: sectionRef.current,
+            start: "top top",
+            end: "+=3000",
+            scrub: 1,
+            pin: true,
+            anticipatePin: 1,
+          },
+        });
 
-      tl.to(step1Ref.current, {
-        y: 0,
-        opacity: 1,
-        scale: 1,
-        duration: 1,
-        ease: "power2.out",
-      })
-        .to(
-          step1Ref.current,
-          {
-            x: "-45%",
-            scale: 0.9,
-            duration: 1,
-            ease: "power2.inOut",
-          },
-          "+=0.3"
-        )
-        .to(
-          step2Ref.current,
-          {
-            y: 0,
-            opacity: 1,
-            scale: 1,
-            duration: 1,
-            ease: "power2.out",
-          },
-          "<"
-        )
-        .to(
-          step1Ref.current,
-          {
-            x: "-90%",
-            scale: 0.85,
-            duration: 1,
-            ease: "power2.inOut",
-          },
-          "+=0.3"
-        )
-        .to(
-          step2Ref.current,
-          {
-            x: "45%",
-            scale: 0.9,
-            duration: 1,
-            ease: "power2.inOut",
-          },
-          "<"
-        )
-        .to(
-          step3Ref.current,
-          {
-            y: 0,
-            opacity: 1,
-            scale: 1,
-            duration: 1,
-            ease: "power2.out",
-          },
-          "<"
-        )
-        .to(
-          [step1Ref.current, step2Ref.current, step3Ref.current],
-          {
-            x: (index) => {
-              if (index === 0) return "-100%";
-              if (index === 1) return "0%";
-              return "100%";
+        gsap.set([step1Ref.current, step2Ref.current, step3Ref.current], {
+          y: "100vh",
+          x: 0,
+          opacity: 0,
+          scale: 0.8,
+        });
+
+        tl.to(step1Ref.current, {
+          y: 0,
+          opacity: 1,
+          scale: 1,
+          duration: 1,
+          ease: "power2.out",
+        })
+          .to(
+            step1Ref.current,
+            {
+              x: "-45%",
+              scale: 0.9,
+              duration: 1,
+              ease: "power2.inOut",
             },
-            scale: 0.85,
-            duration: 1,
-            ease: "power2.inOut",
-          },
-          "+=0.2"
-        );
+            "+=0.3"
+          )
+          .to(
+            step2Ref.current,
+            {
+              y: 0,
+              opacity: 1,
+              scale: 1,
+              duration: 1,
+              ease: "power2.out",
+            },
+            "<"
+          )
+          .to(
+            step1Ref.current,
+            {
+              x: "-90%",
+              scale: 0.85,
+              duration: 1,
+              ease: "power2.inOut",
+            },
+            "+=0.3"
+          )
+          .to(
+            step2Ref.current,
+            {
+              x: "45%",
+              scale: 0.9,
+              duration: 1,
+              ease: "power2.inOut",
+            },
+            "<"
+          )
+          .to(
+            step3Ref.current,
+            {
+              y: 0,
+              opacity: 1,
+              scale: 1,
+              duration: 1,
+              ease: "power2.out",
+            },
+            "<"
+          )
+          .to(
+            [step1Ref.current, step2Ref.current, step3Ref.current],
+            {
+              x: (index) => {
+                if (index === 0) return "-100%";
+                if (index === 1) return "0%";
+                return "100%";
+              },
+              scale: 0.85,
+              duration: 1,
+              ease: "power2.inOut",
+            },
+            "+=0.2"
+          );
+      }
     }, sectionRef);
 
     return () => ctx.revert();
@@ -138,7 +152,7 @@ export default function HowItWorks() {
     <section
       ref={sectionRef}
       id="how-it-works"
-      className="relative h-screen overflow-hidden bg-[#FFF8F0]"
+      className="relative md:h-screen overflow-hidden bg-[#FFF8F0] py-16 md:py-0"
     >
       {/* Subtle Pattern Overlay */}
       <div
@@ -148,11 +162,11 @@ export default function HowItWorks() {
         }}
       />
 
-      <div className="absolute top-12 left-0 right-0 z-20 text-center px-6">
-        <h2 className="text-5xl lg:text-6xl font-serif font-bold text-[#3E2723]">
+      <div className="absolute md:top-6 top-0 left-0 right-0 z-20 text-center px-4 md:px-6">
+        <h2 className="text-3xl md:text-4xl lg:text-6xl font-serif font-bold text-[#3E2723]">
           Simple as 1-2-3
         </h2>
-        <p className="text-xl text-[#5D5D5D] max-w-2xl mx-auto mt-4">
+        <p className="text-base md:text-lg lg:text-xl text-[#5D5D5D] max-w-2xl mx-auto mt-2 md:mt-3">
           Start preserving precious memories in less time than it takes to make
           coffee
         </p>
@@ -160,18 +174,55 @@ export default function HowItWorks() {
 
       <div
         ref={containerRef}
-        className="absolute inset-0 flex items-center justify-center"
+        className="md:absolute md:inset-0 flex md:items-center md:justify-center items-start justify-center pt-32 md:pt-0"
       >
+        <div className="md:hidden flex flex-col gap-6 w-full px-4 max-w-md mx-auto">
+          {/* Mobile: Stack all cards vertically */}
+          <div ref={step1Ref}>
+            <div className="space-y-2 md:space-y-4 text-center backdrop-blur-md p-4 md:p-6 lg:p-8 rounded-lg">
+              <h3 className="text-xl md:text-2xl lg:text-3xl font-serif font-bold text-[#3E2723]">
+                {steps[0].title}
+              </h3>
+              <p className="text-sm md:text-base lg:text-lg text-[#5D5D5D] leading-relaxed">
+                {steps[0].description}
+              </p>
+            </div>
+          </div>
+
+          <div ref={step2Ref}>
+            <div className="space-y-2 md:space-y-4 text-center backdrop-blur-md p-4 md:p-6 lg:p-8 rounded-lg">
+              <h3 className="text-xl md:text-2xl lg:text-3xl font-serif font-bold text-[#3E2723]">
+                {steps[1].title}
+              </h3>
+              <p className="text-sm md:text-base lg:text-lg text-[#5D5D5D] leading-relaxed">
+                {steps[1].description}
+              </p>
+            </div>
+          </div>
+
+          <div ref={step3Ref}>
+            <div className="space-y-2 md:space-y-4 text-center backdrop-blur-md p-4 md:p-6 lg:p-8 rounded-lg">
+              <h3 className="text-xl md:text-2xl lg:text-3xl font-serif font-bold text-[#3E2723]">
+                {steps[2].title}
+              </h3>
+              <p className="text-sm md:text-base lg:text-lg text-[#5D5D5D] leading-relaxed">
+                {steps[2].description}
+              </p>
+            </div>
+          </div>
+        </div>
+
+        {/* Desktop: Animated cards */}
         <div
           ref={step1Ref}
-          className="absolute w-[90%] max-w-md"
+          className="hidden md:block absolute w-[90%] max-w-md"
           style={{ transformOrigin: "center center" }}
         >
-          <div className="space-y-4 text-center backdrop-blur-md bg-white/80 p-8 rounded-lg">
-            <h3 className="text-3xl font-serif font-bold text-[#3E2723]">
+          <div className="space-y-2 md:space-y-4 text-center backdrop-blur-md p-4 md:p-6 lg:p-8 rounded-lg">
+            <h3 className="text-xl md:text-2xl lg:text-3xl font-serif font-bold text-[#3E2723]">
               {steps[0].title}
             </h3>
-            <p className="text-lg text-[#5D5D5D] leading-relaxed">
+            <p className="text-sm md:text-base lg:text-lg text-[#5D5D5D] leading-relaxed">
               {steps[0].description}
             </p>
           </div>
@@ -179,14 +230,14 @@ export default function HowItWorks() {
 
         <div
           ref={step2Ref}
-          className="absolute w-[90%] max-w-md"
+          className="hidden md:block absolute w-[90%] max-w-md"
           style={{ transformOrigin: "center center" }}
         >
-          <div className="space-y-4 text-center backdrop-blur-md bg-white/80 p-8 rounded-lg">
-            <h3 className="text-3xl font-serif font-bold text-[#3E2723]">
+          <div className="space-y-2 md:space-y-4 text-center backdrop-blur-md p-4 md:p-6 lg:p-8 rounded-lg">
+            <h3 className="text-xl md:text-2xl lg:text-3xl font-serif font-bold text-[#3E2723]">
               {steps[1].title}
             </h3>
-            <p className="text-lg text-[#5D5D5D] leading-relaxed">
+            <p className="text-sm md:text-base lg:text-lg text-[#5D5D5D] leading-relaxed">
               {steps[1].description}
             </p>
           </div>
@@ -194,14 +245,14 @@ export default function HowItWorks() {
 
         <div
           ref={step3Ref}
-          className="absolute w-[90%] max-w-md"
+          className="hidden md:block absolute w-[90%] max-w-md"
           style={{ transformOrigin: "center center" }}
         >
-          <div className="space-y-4 text-center backdrop-blur-md bg-white/80 p-8 rounded-lg">
-            <h3 className="text-3xl font-serif font-bold text-[#3E2723]">
+          <div className="space-y-2 md:space-y-4 text-center backdrop-blur-md p-4 md:p-6 lg:p-8 rounded-lg">
+            <h3 className="text-xl md:text-2xl lg:text-3xl font-serif font-bold text-[#3E2723]">
               {steps[2].title}
             </h3>
-            <p className="text-lg text-[#5D5D5D] leading-relaxed">
+            <p className="text-sm md:text-base lg:text-lg text-[#5D5D5D] leading-relaxed">
               {steps[2].description}
             </p>
           </div>
