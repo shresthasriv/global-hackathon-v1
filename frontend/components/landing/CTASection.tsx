@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { useScrollAnimation } from "@/hooks/useScrollAnimation";
 
@@ -43,7 +44,6 @@ export default function CTASection() {
             style={{ transitionDelay: "0.2s" }}
           >
             Start preserving your family&apos;s stories today
-
           </p>
 
           {/* CTA Button */}
@@ -51,25 +51,27 @@ export default function CTASection() {
             className={`pt-8 memory-bloom ${isVisible ? "visible" : ""}`}
             style={{ transitionDelay: "0.4s" }}
           >
-            <Button
-              size="lg"
-              className="bg-[#3E2723] hover:bg-[#2d1f1a] text-white text-xl px-12 py-8 rounded-2xl shadow-2xl hover:shadow-3xl transition-all duration-300 hover:scale-105 group"
-            >
-              Start Your First Memory
-              <svg
-                className="ml-3 w-6 h-6 group-hover:translate-x-2 transition-transform"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
+            <Link href="/onboarding/step-1">
+              <Button
+                size="lg"
+                className="bg-[#3E2723] hover:bg-[#2d1f1a] text-white text-xl px-12 py-8 rounded-2xl shadow-2xl hover:shadow-3xl transition-all duration-300 hover:scale-105 group"
               >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M13 7l5 5m0 0l-5 5m5-5H6"
-                />
-              </svg>
-            </Button>
+                Start Your First Memory
+                <svg
+                  className="ml-3 w-6 h-6 group-hover:translate-x-2 transition-transform"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M13 7l5 5m0 0l-5 5m5-5H6"
+                  />
+                </svg>
+              </Button>
+            </Link>
           </div>
 
           {/* Trust Signals */}
