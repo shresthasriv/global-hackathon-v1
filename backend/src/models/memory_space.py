@@ -1,6 +1,6 @@
 from sqlalchemy import String
 from sqlalchemy.orm import Mapped, mapped_column, relationship
-from src.database.models import CRUD
+from database.models import CRUD
 
 
 class MemorySpace(CRUD):
