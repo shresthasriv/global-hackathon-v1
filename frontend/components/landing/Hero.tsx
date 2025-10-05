@@ -51,7 +51,7 @@ export default function Hero() {
         />
       </div>
 
-      <div className="container mx-auto px-6 py-20 relative z-10">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-20 relative z-10">
         <div className="grid lg:grid-cols-2 gap-12 items-center">
           {/* Left: Hero Image */}
           <div className="order-2 lg:order-1 animate-scale-in">
@@ -195,24 +195,27 @@ export default function Hero() {
                     </Button>
                   </div>
 
-                  <div className="flex flex-col sm:flex-row gap-4">
-                    <Link href="/blogs" className="flex-1">
+                  <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center sm:justify-start">
+                    <Link href="/blogs" className="flex-1 sm:max-w-xs">
                       <Button
                         size="lg"
-                        className="w-full bg-gradient-to-r from-[#8B7355] to-[#A0826D] hover:from-[#7A6348] hover:to-[#8B7355] text-white text-lg px-8 py-6 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105"
+                        className="w-full bg-gradient-to-r from-[#8B7355] to-[#A0826D] hover:from-[#7A6348] hover:to-[#8B7355] text-white text-base sm:text-lg px-6 py-4 sm:px-8 sm:py-6 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105"
                       >
                         {/* <BookOpen className="mr-2 h-5 w-5" /> */}
                         My Memory Blogs
                       </Button>
                     </Link>
-                    <Link href="/onboarding/step-2" className="flex-1">
+                    <Link
+                      href="/onboarding/step-2"
+                      className="flex-1 sm:max-w-xs"
+                    >
                       <Button
                         size="lg"
                         variant="outline"
-                        className="w-full border-2 border-[#E8B4A0] text-[#E8B4A0] hover:bg-[#E8B4A0] hover:text-white text-lg px-8 py-6 rounded-xl transition-all duration-300"
+                        className="w-full border-2 border-[#E8B4A0] text-[#E8B4A0] hover:bg-[#E8B4A0] hover:text-white text-base sm:text-lg px-6 py-4 sm:px-8 sm:py-6 rounded-xl transition-all duration-300"
                       >
                         Capture New Memory
-                        <ArrowRight className="ml-2 h-5 w-5" />
+                        <ArrowRight className="ml-2 h-4 w-4 sm:h-5 sm:w-5" />
                       </Button>
                     </Link>
                   </div>
@@ -220,11 +223,11 @@ export default function Hero() {
               ) : (
                 // Not signed in state
                 <div className="space-y-4">
-                  <div className="flex flex-col sm:flex-row gap-4">
+                  <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center sm:justify-start">
                     <Button
                       size="lg"
                       onClick={() => setShowSignInModal(true)}
-                      className="bg-[#E8B4A0] hover:bg-[#d9a391] text-white text-lg px-8 py-6 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105"
+                      className="w-full sm:w-auto bg-[#E8B4A0] hover:bg-[#d9a391] text-white text-base sm:text-lg px-6 py-4 sm:px-8 sm:py-6 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105"
                     >
                       Start Preserving Memories
                       {/* <BookOpen className="ml-2 h-5 w-5" /> */}
@@ -232,7 +235,7 @@ export default function Hero() {
                     <Button
                       size="lg"
                       variant="outline"
-                      className="border-2 border-[#8B7355] text-[#8B7355] hover:bg-[#8B7355] hover:text-white text-lg px-8 py-6 rounded-xl transition-all duration-300"
+                      className="w-full sm:w-auto border-2 border-[#8B7355] text-[#8B7355] hover:bg-[#8B7355] hover:text-white text-base sm:text-lg px-6 py-4 sm:px-8 sm:py-6 rounded-xl transition-all duration-300"
                     >
                       Watch Demo
                     </Button>
