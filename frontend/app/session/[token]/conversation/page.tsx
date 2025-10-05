@@ -11,6 +11,7 @@ import {
   Keyboard,
   MessageSquare,
   AlertCircle,
+  BookOpen,
 } from "lucide-react";
 import {
   getMemorySpace,
@@ -169,7 +170,6 @@ function ConversationContent() {
         session_messages: messages,
       });
 
-      alert("Memory blog created successfully!");
       router.push(`/blogs/${blog.id}`);
     } catch (error) {
       console.error("Error converting to blog:", error);
@@ -208,33 +208,45 @@ function ConversationContent() {
                   {memorySpace.grandparent_name}'s Stories
                 </h1>
                 <p className="text-sm text-[#8B7355]">
-                  {mode === "voice" ? "🎤 Voice Mode" : "⌨️ Text Mode"}
+                  {mode === "voice" ? "Voice Mode" : "Text Mode"}
                 </p>
               </div>
             </div>
-            <Button
-              onClick={toggleMode}
-              variant="outline"
-              className="border-2 border-[#E5D5C3] hover:bg-[#FFF8F0]"
-            >
-              {mode === "voice" ? (
-                <>
-                  <Keyboard className="w-4 h-4 mr-2" />
-                  Switch to Text
-                </>
-              ) : (
-                <>
-                  <Mic className="w-4 h-4 mr-2" />
-                  Switch to Voice
-                </>
+            <div className="flex items-center gap-3">
+              {messages.length > 1 && (
+                <Button
+                  onClick={handleConvertToBlog}
+                  disabled={convertingToBlog || sending}
+                  className="bg-gradient-to-r from-[#8B7355] to-[#A0826D] hover:from-[#7A6348] hover:to-[#8B7355] text-white font-semibold shadow-md"
+                >
+                  <BookOpen className="w-4 h-4 mr-2" />
+                  {convertingToBlog ? "Creating..." : "Save as Blog"}
+                </Button>
               )}
-            </Button>
+              <Button
+                onClick={toggleMode}
+                variant="outline"
+                className="border-2 border-[#E5D5C3] hover:bg-[#FFF8F0]"
+              >
+                {mode === "voice" ? (
+                  <>
+                    <Keyboard className="w-4 h-4 mr-2" />
+                    Switch to Text
+                  </>
+                ) : (
+                  <>
+                    <Mic className="w-4 h-4 mr-2" />
+                    Switch to Voice
+                  </>
+                )}
+              </Button>
+            </div>
           </div>
         </div>
       </div>
 
       {/* Messages Container */}
-      <div className="flex-1 container mx-auto px-6 py-8 overflow-y-auto">
+      <div className="flex-1 container mx-auto px-6 py-8 pb-48 overflow-y-auto">
         <div className="max-w-3xl mx-auto space-y-6">
           {messages.map((message) => (
             <div
@@ -278,13 +290,13 @@ function ConversationContent() {
         </div>
       </div>
 
-      {/* Input Area */}
-      <div className="bg-white border-t-2 border-[#E5D5C3] shadow-lg sticky bottom-0">
-        <div className="container mx-auto px-6 py-4">
-          <div className="max-w-3xl mx-auto">
+      {/* Floating Input Area */}
+      <div className="fixed bottom-6 left-0 right-0 px-6 pointer-events-none z-20">
+        <div className="container mx-auto max-w-3xl pointer-events-auto">
+          <div className="bg-white border-2 border-[#E5D5C3] shadow-2xl rounded-2xl p-4">
             {/* Error Message for Voice */}
             {mode === "voice" && speechError && (
-              <div className="mb-3 p-3 bg-red-50 border border-red-200 rounded-lg flex items-center gap-2 text-red-700 text-sm">
+              <div className="mb-4 p-3 bg-red-50 border border-red-200 rounded-lg flex items-center gap-2 text-red-700 text-sm">
                 <AlertCircle className="w-4 h-4 flex-shrink-0" />
                 <span>
                   {speechError === "not-allowed"
@@ -302,7 +314,7 @@ function ConversationContent() {
                   onKeyPress={handleKeyPress}
                   placeholder="Share your memory..."
                   disabled={sending}
-                  className="flex-1 h-12 text-base"
+                  className="flex-1 h-12 text-base border-[#E5D5C3] focus:border-[#8B7355] focus:ring-[#8B7355]"
                 />
                 <Button
                   onClick={() => handleSendMessage()}
@@ -359,44 +371,32 @@ function ConversationContent() {
                     </Button>
                   )}
                 </div>
-
-                <p className="text-center text-xs text-[#8B7355]">
-                  {isListening ? (
-                    <span className="flex items-center justify-center gap-2">
-                      <span className="inline-block w-2 h-2 bg-red-500 rounded-full animate-pulse" />
-                      Listening... Speak now
-                    </span>
-                  ) : inputText.trim() ? (
-                    "Click mic to add more, or click Send when ready"
-                  ) : (
-                    "Click the microphone to speak. Recording stops automatically when you finish."
-                  )}
-                </p>
-              </div>
-            )}
-
-            {!isListening && (
-              <p className="text-center text-xs text-[#8B7355]/70 mt-2">
-                Take your time. Every memory is precious. ✨
-              </p>
-            )}
-
-            {/* Convert to Blog Button */}
-            {messages.length > 1 && !isListening && (
-              <div className="mt-6 flex justify-center">
-                <Button
-                  onClick={handleConvertToBlog}
-                  disabled={convertingToBlog || sending}
-                  className="bg-gradient-to-r from-[#D4AF37] to-[#F4C430] hover:from-[#C4A137] hover:to-[#E4B420] text-[#3E2723] font-semibold shadow-lg"
-                >
-                  {/* <BookOpen className="w-5 h-5 mr-2" /> */}
-                  {convertingToBlog
-                    ? "Creating Memory Blog..."
-                    : "Convert to Memory Blog"}
-                </Button>
               </div>
             )}
           </div>
+
+          {/* Helper Text Below Box */}
+          {!isListening && mode === "text" && (
+            <p className="text-center text-xs text-[#8B7355]/70 mt-3">
+              Take your time. Every memory is precious. ✨
+            </p>
+          )}
+
+          {/* Helper Text for Voice Mode */}
+          {mode === "voice" && (
+            <p className="text-center text-xs text-[#8B7355]/70 mt-3">
+              {isListening ? (
+                <span className="flex items-center justify-center gap-2">
+                  <span className="inline-block w-2 h-2 bg-red-500 rounded-full animate-pulse" />
+                  Listening... Speak now
+                </span>
+              ) : inputText.trim() ? (
+                "Click mic to add more, or click Send when ready"
+              ) : (
+                "Click the microphone to speak. Recording stops automatically when you finish."
+              )}
+            </p>
+          )}
         </div>
       </div>
 

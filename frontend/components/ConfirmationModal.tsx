@@ -55,9 +55,9 @@ export default function ConfirmationModal({
 
           {/* Icon */}
           {/* <div className="mb-6 flex justify-center"> */}
-            {/* <div className="w-16 h-16 rounded-full bg-gradient-to-br from-[#D4AF37] to-[#F4C430] flex items-center justify-center shadow-lg"> */}
-              {/* <BookOpen className="w-8 h-8 text-white" /> */}
-            {/* </div> */}
+          {/* <div className="w-16 h-16 rounded-full bg-gradient-to-br from-[#D4AF37] to-[#F4C430] flex items-center justify-center shadow-lg"> */}
+          {/* <BookOpen className="w-8 h-8 text-white" /> */}
+          {/* </div> */}
           {/* </div> */}
 
           {/* Header */}
@@ -81,7 +81,7 @@ export default function ConfirmationModal({
             <Button
               onClick={handleConfirm}
               disabled={loading}
-              className="flex-1 bg-gradient-to-r from-[#D4AF37] to-[#F4C430] hover:from-[#C4A137] hover:to-[#E4B420] text-[#3E2723] py-6 text-base font-semibold shadow-lg hover:shadow-xl transition-all duration-300"
+              className="flex-1 bg-gradient-to-r from-[#8B7355] to-[#A0826D] hover:from-[#7A6348] hover:to-[#8B7355] text-white py-6 text-base font-semibold shadow-lg hover:shadow-xl transition-all duration-300"
             >
               {loading ? "Processing..." : confirmText}
             </Button>
