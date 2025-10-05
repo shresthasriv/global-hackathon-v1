@@ -445,112 +445,80 @@ function ConversationContent() {
       </div>
 
       {/* Floating Input Area */}
-      <div className="fixed bottom-6 left-0 right-0 px-6 pointer-events-none z-20">
-        <div className="container mx-auto max-w-3xl pointer-events-auto">
-          <div className="bg-white border-2 border-[#E5D5C3] shadow-2xl rounded-2xl p-4">
-            {/* Error Message for Voice */}
-            {mode === "voice" && speechError && (
-              <div className="mb-4 p-3 bg-red-50 border border-red-200 rounded-lg flex items-center gap-2 text-red-700 text-sm">
-                <AlertCircle className="w-4 h-4 flex-shrink-0" />
-                <span>
-                  {speechError === "not-allowed"
-                    ? "Microphone access denied. Please enable it in your browser settings."
-                    : "Voice recognition error. Please try again."}
-                </span>
-              </div>
-            )}
+      <div className="fixed bottom-6 left-0 right-0 px-6 z-20">
+        <div className="container mx-auto max-w-3xl">
+          {/* Error Message for Voice */}
+          {mode === "voice" && speechError && (
+            <div className="mb-4 p-3 bg-red-50 border border-red-200 rounded-lg flex items-center gap-2 text-red-700 text-sm">
+              <AlertCircle className="w-4 h-4 flex-shrink-0" />
+              <span>
+                {speechError === "not-allowed"
+                  ? "Microphone access denied. Please enable it in your browser settings."
+                  : "Voice recognition error. Please try again."}
+              </span>
+            </div>
+          )}
 
-            {mode === "text" ? (
-              <div className="flex gap-3">
-                <Input
-                  ref={inputRef}
-                  value={inputText}
-                  onChange={(e) => setInputText(e.target.value)}
-                  onKeyPress={handleKeyPress}
-                  placeholder="Share your memory..."
-                  disabled={sending}
-                  className="flex-1 h-12 text-base border-[#E5D5C3] focus:border-[#8B7355] focus:ring-[#8B7355]"
-                />
+          {mode === "text" ? (
+            <div className="flex gap-3">
+              <Input
+                ref={inputRef}
+                value={inputText}
+                onChange={(e) => setInputText(e.target.value)}
+                onKeyPress={handleKeyPress}
+                placeholder="Share your memory..."
+                disabled={sending}
+                className="flex-1 h-12 text-base"
+              />
+              <Button
+                onClick={() => handleSendMessage()}
+                disabled={!inputText.trim() || sending}
+                className="h-12 px-6 bg-gradient-to-r from-[#8B7355] to-[#A0826D] hover:from-[#7A6348] hover:to-[#8B7355]"
+              >
+                <Send className="w-5 h-5" />
+              </Button>
+            </div>
+          ) : (
+            <div className="space-y-3">
+              <Input
+                value={inputText}
+                onChange={(e) => setInputText(e.target.value)}
+                placeholder="Click mic to speak..."
+                disabled
+                className="w-full h-12 text-base"
+              />
+              <div className="flex items-center justify-center gap-3">
+                <Button
+                  onClick={handleVoiceRecord}
+                  disabled={!isSupported || isListening}
+                  className={`h-12 w-12 rounded-full ${
+                    isListening
+                      ? "bg-red-500 hover:bg-red-600 animate-pulse"
+                      : "bg-gradient-to-r from-[#8B7355] to-[#A0826D] hover:from-[#7A6348] hover:to-[#8B7355]"
+                  } shadow-lg disabled:opacity-50 disabled:cursor-not-allowed`}
+                  title={
+                    !isSupported
+                      ? "Voice not supported in this browser"
+                      : isListening
+                      ? "Listening..."
+                      : "Click to speak"
+                  }
+                >
+                  {isListening ? (
+                    <MicOff className="w-6 h-6" />
+                  ) : (
+                    <Mic className="w-6 h-6" />
+                  )}
+                </Button>
                 <Button
                   onClick={() => handleSendMessage()}
-                  disabled={!inputText.trim() || sending}
+                  disabled={!inputText.trim() || sending || isListening}
                   className="h-12 px-6 bg-gradient-to-r from-[#8B7355] to-[#A0826D] hover:from-[#7A6348] hover:to-[#8B7355]"
                 >
                   <Send className="w-5 h-5" />
                 </Button>
               </div>
-            ) : (
-              <div className="space-y-3">
-                {/* Voice Input Display */}
-                {inputText && (
-                  <div className="bg-[#FFF8F0] border-2 border-[#E5D5C3] rounded-lg p-4 min-h-[60px]">
-                    <p className="text-[#3E2723] text-base leading-relaxed">
-                      {inputText}
-                    </p>
-                  </div>
-                )}
-
-                {/* Voice Controls */}
-                <div className="flex items-center justify-center gap-3">
-                  <Button
-                    onClick={handleVoiceRecord}
-                    disabled={!isSupported || isListening}
-                    className={`h-16 w-16 rounded-full ${
-                      isListening
-                        ? "bg-red-500 hover:bg-red-600 animate-pulse"
-                        : "bg-gradient-to-r from-[#8B7355] to-[#A0826D] hover:from-[#7A6348] hover:to-[#8B7355]"
-                    } shadow-lg disabled:opacity-50 disabled:cursor-not-allowed`}
-                    title={
-                      !isSupported
-                        ? "Voice not supported in this browser"
-                        : isListening
-                        ? "Listening..."
-                        : "Click to speak"
-                    }
-                  >
-                    {isListening ? (
-                      <MicOff className="w-8 h-8" />
-                    ) : (
-                      <Mic className="w-8 h-8" />
-                    )}
-                  </Button>
-
-                  {inputText.trim() && !isListening && (
-                    <Button
-                      onClick={() => handleSendMessage()}
-                      disabled={sending}
-                      className="h-12 px-6 bg-gradient-to-r from-[#A8B89F] to-[#8B9B82] hover:from-[#97A78E] hover:to-[#7A8A71]"
-                    >
-                      <Send className="w-5 h-5 mr-2" />
-                      Send
-                    </Button>
-                  )}
-                </div>
-              </div>
-            )}
-          </div>
-
-          {/* Helper Text Below Box */}
-          {!isListening && mode === "text" && (
-            <p className="text-center text-xs text-[#8B7355]/70 mt-3">
-              Take your time. Every memory is precious. ✨
-            </p>
-          )}
-
-          {/* Helper Text for Voice Mode */}
-          {mode === "voice" && (
-            <p className="text-center text-xs text-[#8B7355]/70 mt-3">
-              {isListening ? (
-                <span className="flex items-center justify-center gap-2">
-                  <span className="inline-block w-2 h-2 bg-red-500 rounded-full animate-pulse" />
-                  Listening... Speak now
-                </span>
-              ) : inputText.trim() ? (
-                "Click mic to add more, or click Send when ready"
-              ) : (
-                "Click the microphone to speak. Recording stops automatically when you finish."
-              )}
-            </p>
+            </div>
           )}
         </div>
       </div>
