@@ -9,7 +9,7 @@ import { Label } from "@/components/ui/label";
 import { ArrowRight, Heart } from "lucide-react";
 import {
   createMemorySpace,
-  uploadPhoto,
+  // uploadPhoto, // Not implemented yet
   getUserFromStorage,
 } from "@/lib/api/client";
 

@@ -37,21 +37,22 @@ export default function BlogViewPage() {
     loadBlog();
   }, [blogId, router]);
 
-  const handleShare = () => {
+  const handleShare = async () => {
     if (navigator.share && blog) {
-      navigator
-        .share({
+      try {
+        await navigator.share({
           title: blog.title,
           text: `Check out this memory: ${blog.title}`,
           url: window.location.href,
-        })
-        .catch((err) => console.log("Error sharing:", err));
-    } else {
-      // Fallback: copy to clipboard
-      navigator.clipboard.writeText(window.location.href);
-      alert("Link copied to clipboard!");
+        });
+      } catch (error) {
+        console.log("Share cancelled");
+      }
     }
   };
+
+  // Commented out for now - download feature not implemented
+  // const handleDownload = () => {
 
   const handleDownload = () => {
     if (!blog || !blog.content) return;

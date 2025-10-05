@@ -224,6 +224,11 @@ function ConversationContent() {
     setShowConvertModal(false);
     setConvertingToBlog(true);
 
+    if (!memorySpace) {
+      alert("Memory space not found");
+      return;
+    }
+
     try {
       // Step 1: End the conversation by sending a final message with end_conversation flag
       await sendMessage(
