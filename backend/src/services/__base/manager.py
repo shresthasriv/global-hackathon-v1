@@ -38,11 +38,13 @@ class Manager:
         if not path_segments:
             return
 
-        module_path = "src.services." + ".".join(path_segments) + ".service"
+        module_path = "services." + ".".join(path_segments) + ".service"
         api_path = f"{self.prefix}/" + "/".join(path_segments)
 
+        print(f"[DEBUG] Attempting to register: {module_path} at {api_path}")
         try:
             service_module = importlib.import_module(module_path)
+            print(f"[DEBUG] Successfully imported: {module_path}")
             service_class = next(
                 (cls for name, cls in inspect.getmembers(service_module, inspect.isclass) if name.endswith("Service")),
                 None
@@ -84,11 +86,15 @@ class Manager:
                         if hasattr(service_instance, endpoint_name):
                             endpoint = getattr(service_instance, endpoint_name)
                             router.add_api_route(path=f"/{sub_path}", endpoint=endpoint, methods=[http_method.upper()])
+                            print(f"[DEBUG] Registered route: {http_method.upper()} {api_path}/{sub_path}")
 
                 if router:
                     self.app.include_router(router)
-        except ModuleNotFoundError:
-            pass
+                    print(f"[DEBUG] Router included for {api_path}")
+        except ModuleNotFoundError as e:
+            print(f"[DEBUG] ModuleNotFoundError for {module_path}: {e}")
+        except Exception as e:
+            print(f"[DEBUG] Error registering {module_path}: {e}")
 
     def register_middlewares(self) -> None:
         if not os.path.exists(self.mws_dir):
