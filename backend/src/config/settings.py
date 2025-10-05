@@ -9,7 +9,7 @@ class Settings(BaseSettings):
     google_api_key: str
     secret_key: str
     cors_origins: list[str] = ["*"]
-    app_base_url: str
+    app_base_url: str = "https://localhost:8000"
 
     class Config:
         env_file = ".env"
