@@ -11,7 +11,6 @@ import {
   Keyboard,
   MessageSquare,
   AlertCircle,
-  BookOpen,
 } from "lucide-react";
 import {
   getMemorySpace,
@@ -21,6 +20,7 @@ import {
   type ConversationMessage,
 } from "@/lib/api/dummy";
 import { useSpeechRecognition } from "@/hooks/useSpeechRecognition";
+import ConfirmationModal from "@/components/ConfirmationModal";
 
 function ConversationContent() {
   const router = useRouter();
@@ -33,6 +33,7 @@ function ConversationContent() {
   const [sending, setSending] = useState(false);
   const [mode, setMode] = useState<"voice" | "text">("text");
   const [convertingToBlog, setConvertingToBlog] = useState(false);
+  const [showConvertModal, setShowConvertModal] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   const token = params.token as string;
@@ -155,12 +156,11 @@ function ConversationContent() {
       return;
     }
 
-    const confirmConvert = window.confirm(
-      "Would you like to convert this conversation into a beautiful memory blog?"
-    );
+    setShowConvertModal(true);
+  };
 
-    if (!confirmConvert) return;
-
+  const confirmConvertToBlog = async () => {
+    setShowConvertModal(false);
     setConvertingToBlog(true);
 
     try {
@@ -389,7 +389,7 @@ function ConversationContent() {
                   disabled={convertingToBlog || sending}
                   className="bg-gradient-to-r from-[#D4AF37] to-[#F4C430] hover:from-[#C4A137] hover:to-[#E4B420] text-[#3E2723] font-semibold shadow-lg"
                 >
-                  <BookOpen className="w-5 h-5 mr-2" />
+                  {/* <BookOpen className="w-5 h-5 mr-2" /> */}
                   {convertingToBlog
                     ? "Creating Memory Blog..."
                     : "Convert to Memory Blog"}
@@ -399,6 +399,18 @@ function ConversationContent() {
           </div>
         </div>
       </div>
+
+      {/* Confirmation Modal */}
+      <ConfirmationModal
+        isOpen={showConvertModal}
+        onClose={() => setShowConvertModal(false)}
+        onConfirm={confirmConvertToBlog}
+        title="Create Memory Blog?"
+        message="Would you like to convert this conversation into a beautiful memory blog? Your stories will be preserved forever."
+        confirmText="Create Blog"
+        cancelText="Not Yet"
+        loading={convertingToBlog}
+      />
     </div>
   );
 }

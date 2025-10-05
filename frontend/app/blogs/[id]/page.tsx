@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import { useRouter, useParams } from "next/navigation";
 import { Button } from "@/components/ui/button";
-import { ArrowLeft, BookOpen, Calendar, Share2, Download } from "lucide-react";
+import { ArrowLeft, Calendar, Share2, Download } from "lucide-react";
 import { getBlogById, type MemoryBlog } from "@/lib/api/dummy";
 import { MarkdownRenderer } from "@/components/MarkdownRenderer";
 import Link from "next/link";
@@ -103,14 +103,14 @@ export default function BlogViewPage() {
                 <Share2 className="w-4 h-4 mr-2" />
                 Share
               </Button>
-              <Button
+              {/* <Button
                 variant="outline"
                 onClick={handleDownload}
                 className="border-2 border-[#E5D5C3] hover:bg-[#FFF8F0]"
               >
                 <Download className="w-4 h-4 mr-2" />
                 Download
-              </Button>
+              </Button> */}
             </div>
           </div>
         </div>
@@ -122,7 +122,7 @@ export default function BlogViewPage() {
           {/* Blog Header */}
           <div className="mb-12">
             <div className="flex items-center gap-2 mb-4">
-              <BookOpen className="w-6 h-6 text-[#8B7355]" />
+              {/* <BookOpen className="w-6 h-6 text-[#8B7355]" /> */}
               <span className="text-lg font-medium text-[#8B7355]">
                 {blog.grandparent_name}
               </span>

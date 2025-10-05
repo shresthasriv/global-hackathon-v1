@@ -3,7 +3,6 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import { ArrowRight, BookOpen } from "lucide-react";
 import { useScrollAnimation } from "@/hooks/useScrollAnimation";
 import SignInModal from "@/components/SignInModal";
 import { getUserFromStorage } from "@/lib/api/dummy";
@@ -80,7 +79,7 @@ export default function CTASection() {
                     size="lg"
                     className="bg-gradient-to-r from-[#8B7355] to-[#A0826D] hover:from-[#7A6348] hover:to-[#8B7355] text-white text-xl px-12 py-8 rounded-2xl shadow-2xl hover:shadow-3xl transition-all duration-300 hover:scale-105 group"
                   >
-                    <BookOpen className="mr-3 w-6 h-6" />
+                    {/* <BookOpen className="mr-3 w-6 h-6" /> */}
                     View My Blogs
                     <svg
                       className="ml-3 w-6 h-6 group-hover:translate-x-2 transition-transform"

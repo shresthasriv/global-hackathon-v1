@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import { LogOut, BookOpen } from "lucide-react";
+import { LogOut } from "lucide-react";
 import SignInModal from "@/components/SignInModal";
 import { getUserFromStorage } from "@/lib/api/dummy";
 
@@ -83,7 +83,7 @@ export default function Navigation() {
                       variant="outline"
                       className="border-[#8B7355] text-[#8B7355] hover:bg-[#8B7355] hover:text-white"
                     >
-                      <BookOpen className="mr-2 h-4 w-4" />
+                      {/* <BookOpen className="mr-2 h-4 w-4" /> */}
                       My Blogs
                     </Button>
                   </Link>

@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
-import { BookOpen, Plus, Calendar, ArrowRight } from "lucide-react";
+import { Plus, Calendar, ArrowRight } from "lucide-react";
 import {
   getUserBlogs,
   getUserFromStorage,
@@ -57,9 +57,9 @@ export default function BlogsPage() {
         <div className="container mx-auto px-6 py-6">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
-              <div className="w-12 h-12 rounded-full bg-gradient-to-br from-[#8B7355] to-[#D4AF37] flex items-center justify-center">
-                <BookOpen className="w-6 h-6 text-white" />
-              </div>
+              {/* <div className="w-12 h-12 rounded-full bg-gradient-to-br from-[#8B7355] to-[#D4AF37] flex items-center justify-center"> */}
+                {/* <BookOpen className="w-6 h-6 text-white" /> */}
+              {/* </div> */}
               <div>
                 <h1 className="font-serif font-bold text-2xl text-[#3E2723]">
                   Memory Blogs
@@ -83,9 +83,9 @@ export default function BlogsPage() {
       <div className="container mx-auto px-6 py-12">
         {blogs.length === 0 ? (
           <div className="max-w-2xl mx-auto text-center py-16">
-            <div className="w-24 h-24 mx-auto mb-6 rounded-full bg-[#FFF8F0] border-4 border-[#E5D5C3] flex items-center justify-center">
-              <BookOpen className="w-12 h-12 text-[#8B7355]" />
-            </div>
+            {/* <div className="w-24 h-24 mx-auto mb-6 rounded-full bg-[#FFF8F0] border-4 border-[#E5D5C3] flex items-center justify-center"> */}
+              {/* <BookOpen className="w-12 h-12 text-[#8B7355]" /> */}
+            {/* </div> */}
             <h2 className="font-serif text-3xl font-bold text-[#3E2723] mb-4">
               No Memory Blogs Yet
             </h2>
@@ -122,7 +122,7 @@ export default function BlogsPage() {
                     <div className="flex items-start justify-between gap-4">
                       <div className="flex-1">
                         <div className="flex items-center gap-2 mb-2">
-                          <BookOpen className="w-5 h-5 text-[#8B7355]" />
+                          {/* <BookOpen className="w-5 h-5 text-[#8B7355]" /> */}
                           <span className="text-sm font-medium text-[#8B7355]">
                             {blog.grandparent_name}
                           </span>

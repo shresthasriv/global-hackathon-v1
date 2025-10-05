@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import { BookOpen, User, LogOut, ArrowRight } from "lucide-react";
+import { User, LogOut, ArrowRight } from "lucide-react";
 import SignInModal from "@/components/SignInModal";
 import { getUserFromStorage } from "@/lib/api/dummy";
 
@@ -197,7 +197,7 @@ export default function Hero() {
                         size="lg"
                         className="w-full bg-gradient-to-r from-[#8B7355] to-[#A0826D] hover:from-[#7A6348] hover:to-[#8B7355] text-white text-lg px-8 py-6 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105"
                       >
-                        <BookOpen className="mr-2 h-5 w-5" />
+                        {/* <BookOpen className="mr-2 h-5 w-5" /> */}
                         My Memory Blogs
                       </Button>
                     </Link>
@@ -223,7 +223,7 @@ export default function Hero() {
                       className="bg-[#E8B4A0] hover:bg-[#d9a391] text-white text-lg px-8 py-6 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105"
                     >
                       Start Preserving Memories
-                      <BookOpen className="ml-2 h-5 w-5" />
+                      {/* <BookOpen className="ml-2 h-5 w-5" /> */}
                     </Button>
                     <Button
                       size="lg"
