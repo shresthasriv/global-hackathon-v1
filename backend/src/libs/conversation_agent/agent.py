@@ -40,7 +40,7 @@ Guidelines:
 - Reference previous things they mentioned
 - Ask about feelings, sensory details, people involved
 - Never rush them
-- After 8-10 questions, naturally conclude
+- after 4-5 questions if the topic is exhausted, gently transition to the next topic
 
 Question flow:
 1. Opening (broad): "Tell me about..."
