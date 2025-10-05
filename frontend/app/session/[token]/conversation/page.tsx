@@ -12,6 +12,7 @@ import {
   MessageSquare,
   AlertCircle,
   BookOpen,
+  ChevronUp,
 } from "lucide-react";
 import {
   getMemorySpace,
@@ -35,7 +36,10 @@ function ConversationContent() {
   const [mode, setMode] = useState<"voice" | "text">("text");
   const [convertingToBlog, setConvertingToBlog] = useState(false);
   const [showConvertModal, setShowConvertModal] = useState(false);
+  const [showAllMessages, setShowAllMessages] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
+  const messagesContainerRef = useRef<HTMLDivElement>(null);
+  const inputRef = useRef<HTMLInputElement>(null);
 
   const token = params.token as string;
 
@@ -84,6 +88,34 @@ function ConversationContent() {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
 
+  // Detect if user has scrolled up to see previous messages
+  useEffect(() => {
+    const handleScroll = () => {
+      const container = messagesContainerRef.current;
+      if (!container) return;
+
+      // If user scrolls up significantly, show all messages
+      const scrolledUp =
+        container.scrollHeight - container.scrollTop - container.clientHeight >
+        100;
+      if (scrolledUp && !showAllMessages) {
+        setShowAllMessages(true);
+      }
+    };
+
+    const container = messagesContainerRef.current;
+    container?.addEventListener("scroll", handleScroll);
+    return () => container?.removeEventListener("scroll", handleScroll);
+  }, [showAllMessages]);
+
+  const scrollToTop = () => {
+    setShowAllMessages(true);
+    messagesContainerRef.current?.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
+  // Get messages to display - only latest 2 (user + AI) if not showing all
+  const displayedMessages = showAllMessages ? messages : messages.slice(-2);
+
   const handleSendMessage = async (textToSend?: string) => {
     const messageText = textToSend || inputText;
     if (!messageText.trim() || !memorySpace) return;
@@ -107,6 +139,12 @@ function ConversationContent() {
       alert("Failed to send message. Please try again.");
     } finally {
       setSending(false);
+      // Auto-focus the input field after AI responds (only in text mode)
+      if (mode === "text") {
+        setTimeout(() => {
+          inputRef.current?.focus();
+        }, 300);
+      }
     }
   };
 
@@ -246,17 +284,38 @@ function ConversationContent() {
       </div>
 
       {/* Messages Container */}
-      <div className="flex-1 container mx-auto px-6 py-8 pb-48 overflow-y-auto">
+      <div
+        ref={messagesContainerRef}
+        className="flex-1 container mx-auto px-6 py-8 pb-48 overflow-y-auto relative"
+      >
+        {/* Previous Messages Button - Small and Subtle */}
+        {!showAllMessages && messages.length > 2 && (
+          <div className="absolute top-4 left-1/2 -translate-x-1/2 z-10 opacity-40 hover:opacity-100 transition-opacity duration-300">
+            <button
+              onClick={scrollToTop}
+              className="text-xs px-3 py-1.5 bg-white/80 backdrop-blur-sm border border-[#E5D5C3]/50 text-[#8B7355]/70 hover:text-[#8B7355] hover:border-[#8B7355]/70 rounded-full shadow-sm hover:shadow-md transition-all duration-300 flex items-center gap-1"
+            >
+              <ChevronUp className="w-3 h-3" />
+              <span>{messages.length - 2} older</span>
+            </button>
+          </div>
+        )}
+
         <div className="max-w-3xl mx-auto space-y-6">
-          {messages.map((message) => (
+          {displayedMessages.map((message, index) => (
             <div
               key={message.id}
               className={`flex ${
                 message.role === "user" ? "justify-end" : "justify-start"
-              } animate-fade-in`}
+              } animate-in fade-in slide-in-from-bottom-4 duration-700 ease-out transition-all`}
+              style={{
+                animationDelay: `${index * 100}ms`,
+                transitionDuration: "500ms",
+                transitionTimingFunction: "cubic-bezier(0.4, 0, 0.2, 1)",
+              }}
             >
               <div
-                className={`max-w-[80%] rounded-2xl p-4 shadow-md ${
+                className={`max-w-[80%] rounded-2xl p-4 shadow-md transition-transform duration-500 ease-out ${
                   message.role === "user"
                     ? "bg-gradient-to-br from-[#8B7355] to-[#A0826D] text-white"
                     : "bg-white border-2 border-[#E5D5C3] text-[#3E2723]"
@@ -270,7 +329,7 @@ function ConversationContent() {
             </div>
           ))}
           {sending && (
-            <div className="flex justify-start animate-fade-in">
+            <div className="flex justify-start animate-in fade-in slide-in-from-bottom-4 duration-500 ease-out">
               <div className="bg-white border-2 border-[#E5D5C3] rounded-2xl p-4 shadow-md">
                 <div className="flex gap-2">
                   <div className="w-2 h-2 rounded-full bg-[#8B7355] animate-bounce" />
@@ -309,6 +368,7 @@ function ConversationContent() {
             {mode === "text" ? (
               <div className="flex gap-3">
                 <Input
+                  ref={inputRef}
                   value={inputText}
                   onChange={(e) => setInputText(e.target.value)}
                   onKeyPress={handleKeyPress}
