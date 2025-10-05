@@ -3,12 +3,13 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import { LogOut } from "lucide-react";
+import { LogOut, Menu, X } from "lucide-react";
 import SignInModal from "@/components/SignInModal";
 import { getUserFromStorage } from "@/lib/api/client";
 
 export default function Navigation() {
   const [isScrolled, setIsScrolled] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [user, setUser] = useState<{ email: string; name: string } | null>(
     null
   );
@@ -110,22 +111,91 @@ export default function Navigation() {
             </div>
 
             {/* Mobile Menu Button */}
-            <button className="md:hidden text-[#3E2723]">
-              <svg
-                className="w-6 h-6"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M4 6h16M4 12h16M4 18h16"
-                />
-              </svg>
+            <button
+              className="md:hidden text-[#3E2723]"
+              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+              aria-label="Toggle menu"
+            >
+              {isMobileMenuOpen ? (
+                <X className="w-6 h-6" />
+              ) : (
+                <Menu className="w-6 h-6" />
+              )}
             </button>
           </div>
+
+          {/* Mobile Menu Dropdown - Compact Side Panel */}
+          {isMobileMenuOpen && (
+            <>
+              {/* Backdrop */}
+              <div
+                className="md:hidden fixed inset-0 bg-black/20 backdrop-blur-sm z-40"
+                onClick={() => setIsMobileMenuOpen(false)}
+              />
+
+              {/* Dropdown Panel */}
+              <div className="md:hidden absolute right-4 top-16 w-64 bg-[#FFF8F0] border-2 border-[#E5D5C3] rounded-xl shadow-2xl z-50 animate-in slide-in-from-top-2 duration-200">
+                <div className="flex flex-col p-4 space-y-3">
+                  <a
+                    href="#how-it-works"
+                    onClick={() => setIsMobileMenuOpen(false)}
+                    className="text-[#5D5D5D] hover:text-[#8B7355] hover:bg-[#F5EEE6] transition-colors py-2 px-3 rounded-lg"
+                  >
+                    How It Works
+                  </a>
+                  <a
+                    href="#stories"
+                    onClick={() => setIsMobileMenuOpen(false)}
+                    className="text-[#5D5D5D] hover:text-[#8B7355] hover:bg-[#F5EEE6] transition-colors py-2 px-3 rounded-lg"
+                  >
+                    Stories
+                  </a>
+
+                  <div className="border-t border-[#E5D5C3] my-2" />
+
+                  {user ? (
+                    <div className="flex flex-col gap-2">
+                      <Link
+                        href="/blogs"
+                        onClick={() => setIsMobileMenuOpen(false)}
+                      >
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          className="w-full border-[#8B7355] text-[#8B7355] hover:bg-[#8B7355] hover:text-white"
+                        >
+                          My Blogs
+                        </Button>
+                      </Link>
+                      <Button
+                        onClick={() => {
+                          handleSignOut();
+                          setIsMobileMenuOpen(false);
+                        }}
+                        variant="outline"
+                        size="sm"
+                        className="w-full border-[#8B7355] text-[#8B7355] hover:bg-[#8B7355] hover:text-white"
+                      >
+                        <LogOut className="mr-2 h-3 w-3" />
+                        Sign Out
+                      </Button>
+                    </div>
+                  ) : (
+                    <Button
+                      onClick={() => {
+                        setShowSignInModal(true);
+                        setIsMobileMenuOpen(false);
+                      }}
+                      size="sm"
+                      className="w-full bg-[#8B7355] text-white hover:bg-[#7A6348]"
+                    >
+                      Sign In
+                    </Button>
+                  )}
+                </div>
+              </div>
+            </>
+          )}
         </div>
       </nav>
 
