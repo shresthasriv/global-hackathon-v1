@@ -43,30 +43,24 @@ export default function ExampleStories() {
       excerpt:
         "I grew up in a small farming town in Iowa. Our white farmhouse had a wraparound porch where we'd sit on summer evenings, watching the cornfields sway in the breeze. The smell of fresh-baked bread would drift through the screen door...",
       author: "Grandma Rose",
-      age: 87,
       theme: "Childhood Memories",
       color: "from-[#E8B4A0] to-[#d9a391]",
-      icon: "🏡",
     },
     {
       title: "Dancing Through the War",
       excerpt:
         "It was 1944 at the USO dance. I was nervous, standing by the punch bowl in my best dress. Then I saw him—tall, handsome in his uniform, with the kindest smile. He asked me to dance, and I haven't stopped dancing with him since...",
       author: "Grandma Margaret",
-      age: 95,
       theme: "Love Story",
       color: "from-[#A8B89F] to-[#96a58d]",
-      icon: "💕",
     },
     {
       title: "The Corner Store Legacy",
       excerpt:
         "My father opened that corner store in 1952 with nothing but determination and a handshake loan. Every morning at 5 AM, we'd unlock those doors. The neighborhood kids would come for penny candy, and I'd teach them about honesty and hard work...",
       author: "Grandpa Joe",
-      age: 89,
       theme: "Career & Purpose",
       color: "from-[#D4AF37] to-[#c29e2f]",
-      icon: "🏪",
     },
   ];
 
@@ -124,7 +118,6 @@ export default function ExampleStories() {
                   : "bg-white text-[#5D5D5D] hover:bg-[#F5EEE6] border border-[#E5D5C3]"
               }`}
             >
-              <span className="mr-2">{story.icon}</span>
               {story.theme}
             </button>
           ))}
@@ -148,9 +141,6 @@ export default function ExampleStories() {
             >
               <div className="flex items-start justify-between">
                 <div className="space-y-2">
-                  <div className="text-6xl mb-4">
-                    {stories[activeStory].icon}
-                  </div>
                   <h3 className="text-3xl lg:text-4xl font-serif font-bold">
                     {stories[activeStory].title}
                   </h3>
@@ -159,7 +149,6 @@ export default function ExampleStories() {
                 <div className="text-right">
                   <div className="bg-white/20 backdrop-blur-sm rounded-full px-4 py-2">
                     <span className="text-sm font-medium">
-                      {stories[activeStory].age} years young
                     </span>
                   </div>
                 </div>
@@ -185,9 +174,6 @@ export default function ExampleStories() {
               {/* Attribution */}
               <div className="flex items-center justify-between pt-6 border-t-2 border-[#E5D5C3]">
                 <div className="flex items-center gap-4">
-                  <div className="w-16 h-16 rounded-full bg-gradient-to-br from-[#8B7355] to-[#D4AF37] flex items-center justify-center text-2xl shadow-lg">
-                    👵🏻
-                  </div>
                   <div>
                     <div className="font-serif font-bold text-lg text-[#3E2723]">
                       {stories[activeStory].author}
@@ -239,7 +225,6 @@ export default function ExampleStories() {
             >
               <div className={`h-2 bg-gradient-to-r ${story.color}`} />
               <div className="p-6 space-y-4">
-                <div className="text-4xl">{story.icon}</div>
                 <h4 className="font-serif font-bold text-xl text-[#3E2723]">
                   {story.title}
                 </h4>
@@ -250,7 +235,6 @@ export default function ExampleStories() {
                   <span className="text-[#8B7355] font-medium">
                     {story.author}
                   </span>
-                  <span className="text-[#9E9E8E]">{story.age}</span>
                 </div>
               </div>
             </Card>
