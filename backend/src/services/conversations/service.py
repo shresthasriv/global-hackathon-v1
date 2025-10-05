@@ -161,10 +161,16 @@ class ConversationsService:
                 ):
                     # Extract content from token event
                     if hasattr(token, 'content') and token.content:
-                        ai_response_parts.append(token.content)
+                        content = token.content
+                        
+                        # Filter out tool execution messages (e.g., "get_chat_history(...) completed in X.XXs")
+                        if "completed in" in content and "get_chat_history" in content:
+                            continue  # Skip tool messages
+                        
+                        ai_response_parts.append(content)
                         token_data = {
                             "type": "token",
-                            "content": token.content,
+                            "content": content,
                         }
                         yield f"data: {json.dumps(token_data)}\n\n"
                 
