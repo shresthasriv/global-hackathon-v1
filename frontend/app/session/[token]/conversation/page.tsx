@@ -61,7 +61,7 @@ function ConversationContent() {
   });
 
   // Typing Animation Hook - animates the streaming content
-  const { displayedText: animatedStreamingText, isTyping } = useTypingAnimation(
+  const { displayedText: animatedStreamingText } = useTypingAnimation(
     streamingContent,
     { speed: 30, enabled: streaming } // 50 chars/sec
   );

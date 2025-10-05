@@ -63,7 +63,7 @@ export default function BlogsPage() {
                   Memory Blogs
                 </h1>
                 <p className="text-sm text-[#8B7355]">
-                  {user?.name}'s Collection
+                  {user?.name}&apos;s Collection
                 </p>
               </div>
             </div>

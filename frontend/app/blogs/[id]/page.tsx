@@ -45,25 +45,10 @@ export default function BlogViewPage() {
           text: `Check out this memory: ${blog.title}`,
           url: window.location.href,
         });
-      } catch (error) {
+      } catch {
         console.log("Share cancelled");
       }
     }
-  };
-
-  // Commented out for now - download feature not implemented
-  // const handleDownload = () => {
-
-  const handleDownload = () => {
-    if (!blog || !blog.content) return;
-
-    const element = document.createElement("a");
-    const file = new Blob([blog.content], { type: "text/markdown" });
-    element.href = URL.createObjectURL(file);
-    element.download = `${blog.title.replace(/[^a-z0-9]/gi, "_")}.md`;
-    document.body.appendChild(element);
-    element.click();
-    document.body.removeChild(element);
   };
 
   if (loading) {

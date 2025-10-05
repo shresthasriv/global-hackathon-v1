@@ -113,7 +113,7 @@ export default function SessionPage() {
                 4
               </div>
               <p className="text-[#3E2723] pt-1">
-                We'll create a beautiful story together
+                We&apos;ll create a beautiful story together
               </p>
             </div>
           </div>

@@ -3,15 +3,7 @@
 import { useState, useEffect, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Button } from "@/components/ui/button";
-import {
-  Copy,
-  CheckCircle,
-  Mic,
-  Keyboard,
-  Sparkles,
-  Check,
-  Lightbulb,
-} from "lucide-react";
+import { Copy, Mic, Sparkles, Check, Lightbulb } from "lucide-react";
 import { getMemorySpace } from "@/lib/api/client";
 
 function Step3Content() {
@@ -96,7 +88,7 @@ function Step3Content() {
             <Sparkles className="w-10 h-10 text-white animate-pulse" />
           </div>
           <h1 className="text-4xl lg:text-6xl font-serif font-bold text-[#3E2723] mb-3">
-            ✨ {memorySpace.grandparent_name}'s
+            ✨ {memorySpace.grandparent_name}&apos;s
           </h1>
           <h2 className="text-3xl lg:text-5xl font-serif font-bold text-[#3E2723] mb-4">
             Memory Space is ready!

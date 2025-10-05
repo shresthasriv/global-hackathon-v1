@@ -6,11 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { X, ArrowRight } from "lucide-react";
-import {
-  createOrUpdateUser,
-  getUserFromStorage,
-  checkUserHasBlogs,
-} from "@/lib/api/client";
+import { createOrUpdateUser, checkUserHasBlogs } from "@/lib/api/client";
 
 interface SignInModalProps {
   isOpen: boolean;

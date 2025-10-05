@@ -13,9 +13,8 @@ export function InlineMarkdown({
   content,
   className = "",
 }: InlineMarkdownProps) {
-  const parseMarkdown = (text: string) => {
+  const parseMarkdown = () => {
     const parts: React.ReactNode[] = [];
-    let currentIndex = 0;
     let key = 0;
 
     // Regex patterns for markdown
@@ -27,7 +26,6 @@ export function InlineMarkdown({
 
     const processText = (input: string): React.ReactNode[] => {
       const elements: React.ReactNode[] = [];
-      let remaining = input;
       let match;
       let lastIndex = 0;
 
@@ -109,5 +107,5 @@ export function InlineMarkdown({
     return parts;
   };
 
-  return <span className={className}>{parseMarkdown(content)}</span>;
+  return <span className={className}>{parseMarkdown()}</span>;
 }

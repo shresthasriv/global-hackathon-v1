@@ -156,7 +156,8 @@ export default function OnboardingStep1() {
                 required
               />
               <p className="text-xs text-[#8B7355]/70">
-                We'll use this to save your progress and send you story updates
+                We&apos;ll use this to save your progress and send you story
+                updates
               </p>
             </div>
 

@@ -262,7 +262,6 @@ export async function sendMessage(
   const decoder = new TextDecoder();
 
   let content = "";
-  let newSessionId: string | null = null;
 
   if (reader) {
     while (true) {
@@ -278,7 +277,6 @@ export async function sendMessage(
             const data = JSON.parse(line.slice(6));
 
             if (data.type === "metadata") {
-              newSessionId = data.session_id;
               // Store session ID in localStorage for later use
               if (typeof window !== "undefined") {
                 localStorage.setItem("current_session_id", data.session_id);
@@ -290,7 +288,7 @@ export async function sendMessage(
                 onToken(data.content);
               }
             }
-          } catch (e) {
+          } catch {
             // Ignore JSON parse errors
           }
         }
@@ -334,7 +332,9 @@ export async function getConversationHistory(
 }
 
 // Story Management
-export async function convertSessionToBlog(data: {
+export async function convertSessionToBlog({
+  memory_space_id,
+}: {
   memory_space_id: string;
   session_messages: ConversationMessage[];
 }): Promise<Story> {

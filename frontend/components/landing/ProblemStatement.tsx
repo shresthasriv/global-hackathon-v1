@@ -1,11 +1,12 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+"use client";
+
+import { useEffect, useRef } from "react";
 import { UserCircle, Users, Baby } from "lucide-react";
 import { useScrollAnimation } from "@/hooks/useScrollAnimation";
 
 export default function ProblemStatement() {
-  const [isVisible, setIsVisible] = useState(false);
   const sectionRef = useRef<HTMLDivElement>(null);
   const { elementRef: textRef, isVisible: textVisible } = useScrollAnimation({
     threshold: 0.2,
@@ -17,7 +18,7 @@ export default function ProblemStatement() {
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
-          setIsVisible(true);
+          // Animation trigger handled by useScrollAnimation hook
         }
       },
       { threshold: 0.3 }

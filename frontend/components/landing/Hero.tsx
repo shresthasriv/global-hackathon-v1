@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { User, LogOut, ArrowRight } from "lucide-react";
 import SignInModal from "@/components/SignInModal";
@@ -60,19 +61,21 @@ export default function Hero() {
 
               {/* Image Container with Scrapbook Effect */}
               <div className="relative bg-white p-4 rounded-2xl shadow-2xl transform rotate-2 hover:rotate-0 transition-transform duration-500">
-                <div className="aspect-[4/5] rounded-xl overflow-hidden bg-gradient-to-br from-[#E8B4A0] to-[#A8B89F] flex items-center justify-center">
+                <div className="aspect-[4/5] rounded-xl overflow-hidden bg-gradient-to-br from-[#E8B4A0] to-[#A8B89F] flex items-center justify-center relative">
                   {/* Hero Image */}
-                  <img
+                  <Image
                     src="/grandpa_grandson.png"
                     alt="Grandparent and grandchild sharing memories"
-                    className="w-full h-full object-cover rounded-xl shadow-lg"
+                    fill
+                    className="object-cover rounded-xl shadow-lg"
+                    priority
                   />
                 </div>
 
                 {/* Polaroid-style caption */}
                 <div className="mt-4 text-center">
                   <p className="text-[#5D5D5D] font-serif italic">
-                    "Every story matters"
+                    &quot;Every story matters&quot;
                   </p>
                 </div>
               </div>
@@ -163,8 +166,8 @@ export default function Hero() {
 
             {/* Subheadline */}
             <p className="text-xl lg:text-2xl text-[#5D5D5D] leading-relaxed max-w-2xl">
-              Preserve your loved ones' memories in beautiful stories that last
-              forever. Simple conversations, timeless legacies.
+              Preserve your loved ones&apos; memories in beautiful stories that
+              last forever. Simple conversations, timeless legacies.
             </p>
 
             {/* CTA Buttons */}

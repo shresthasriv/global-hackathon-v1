@@ -1,64 +1,6 @@
 "use client";
 
-import { Card } from "@/components/ui/card";
-import {
-  useStaggeredAnimation,
-  useScrollAnimation,
-} from "@/hooks/useScrollAnimation";
-
 export default function Features() {
-  const { elementRef: headerRef, isVisible: headerVisible } =
-    useScrollAnimation();
-  const { elementRef: featuresRef, visibleItems } = useStaggeredAnimation(
-    6,
-    100
-  );
-
-  const features = [
-    {
-      icon: "🎤",
-      title: "Voice First",
-      description:
-        "Speak naturally or type—whatever feels comfortable. Our voice recognition works seamlessly for elderly users.",
-      gradient: "from-[#E8B4A0] to-[#d9a391]",
-    },
-    {
-      icon: "🧠",
-      title: "Smart AI Questions",
-      description:
-        "Natural follow-ups that feel like chatting with a caring grandchild. The AI remembers and references past stories.",
-      gradient: "from-[#A8B89F] to-[#96a58d]",
-    },
-    {
-      icon: "✨",
-      title: "Instant Beautiful Posts",
-      description:
-        "Professional formatting in seconds. Multiple style options from warm narratives to interview formats.",
-      gradient: "from-[#D4AF37] to-[#c29e2f]",
-    },
-    {
-      icon: "👴",
-      title: "Elderly Friendly",
-      description:
-        "Large text, high contrast, simple UI. Designed specifically for seniors with accessibility in mind.",
-      gradient: "from-[#8B7355] to-[#6d5b45]",
-    },
-    {
-      icon: "📱",
-      title: "Works Anywhere",
-      description:
-        "Phone, tablet, or computer. No app download needed. Start capturing memories from any device.",
-      gradient: "from-[#E8B4A0] to-[#d9a391]",
-    },
-    {
-      icon: "🔒",
-      title: "Private & Secure",
-      description:
-        "Your stories stay yours. Share with family on your terms. We never sell or share your data.",
-      gradient: "from-[#A8B89F] to-[#96a58d]",
-    },
-  ];
-
   return (
     <section className="py-24 bg-white relative overflow-hidden">
       {/* Decorative Background */}
@@ -122,7 +64,6 @@ export default function Features() {
             </Card>
           ))}
         </div> */}
-
       </div>
 
       {/* Fade Transition to Next Section with Animated Gradient */}
