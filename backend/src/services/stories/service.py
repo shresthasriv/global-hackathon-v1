@@ -99,7 +99,8 @@ class StoriesService:
         # Format transcript for story generation
         transcript_lines = []
         for msg in messages:
-            role = "Grandchild" if msg.role.value == "assistant" else "Grandparent"
+            # USER = grandparent's messages, ASSISTANT = AI interviewer
+            role = "Grandparent" if msg.role == "user" else "Grandchild"
             transcript_lines.append(f"{role}: {msg.content}")
         
         transcript = "\n\n".join(transcript_lines)
