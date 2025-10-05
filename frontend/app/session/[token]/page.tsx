@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import { useRouter, useParams } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Mic, Keyboard, Sparkles } from "lucide-react";
-import { getMemorySpace } from "@/lib/api/dummy";
+import { getMemorySpace } from "@/lib/api/client";
 
 export default function SessionPage() {
   const router = useRouter();

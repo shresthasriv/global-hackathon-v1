@@ -16,11 +16,10 @@ import {
 } from "lucide-react";
 import {
   getMemorySpace,
-  getInitialPrompt,
   sendMessage,
   convertSessionToBlog,
   type ConversationMessage,
-} from "@/lib/api/dummy";
+} from "@/lib/api/client";
 import { useSpeechRecognition } from "@/hooks/useSpeechRecognition";
 import ConfirmationModal from "@/components/ConfirmationModal";
 
@@ -37,6 +36,7 @@ function ConversationContent() {
   const [convertingToBlog, setConvertingToBlog] = useState(false);
   const [showConvertModal, setShowConvertModal] = useState(false);
   const [showAllMessages, setShowAllMessages] = useState(false);
+  const [sessionId, setSessionId] = useState<string | null>(null);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const messagesContainerRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
@@ -66,9 +66,14 @@ function ConversationContent() {
         const space = await getMemorySpace(token);
         if (space) {
           setMemorySpace(space);
-          // Get initial prompt
-          const initialMessage = await getInitialPrompt(space.id);
-          setMessages([initialMessage]);
+          // Start conversation with backend to get initial message
+          const response = await sendMessage(
+            space.id,
+            "",
+            undefined,
+            space.grandparent_name
+          );
+          setMessages([response]);
         } else {
           alert("Memory space not found");
           router.push("/");
@@ -121,7 +126,7 @@ function ConversationContent() {
     if (!messageText.trim() || !memorySpace) return;
 
     const userMessage: ConversationMessage = {
-      id: Date.now().toString(),
+      id: crypto.randomUUID(),
       role: "user",
       content: messageText.trim(),
       timestamp: new Date().toISOString(),
@@ -132,7 +137,21 @@ function ConversationContent() {
     setSending(true);
 
     try {
-      const aiResponse = await sendMessage(memorySpace.id, messageText);
+      const aiResponse = await sendMessage(
+        memorySpace.id,
+        messageText,
+        sessionId || undefined,
+        memorySpace.grandparent_name
+      );
+
+      // Store session ID if this is the first message
+      if (!sessionId && typeof window !== "undefined") {
+        const storedSessionId = localStorage.getItem("current_session_id");
+        if (storedSessionId) {
+          setSessionId(storedSessionId);
+        }
+      }
+
       setMessages((prev) => [...prev, aiResponse]);
     } catch (error) {
       console.error("Error sending message:", error);
@@ -203,6 +222,16 @@ function ConversationContent() {
     setConvertingToBlog(true);
 
     try {
+      // Step 1: End the conversation by sending a final message with end_conversation flag
+      await sendMessage(
+        memorySpace.id,
+        "Thank you for sharing these wonderful memories with me.",
+        sessionId || undefined,
+        memorySpace.grandparent_name,
+        true // end_conversation flag
+      );
+
+      // Step 2: Generate the story now that conversation is marked as complete
       const blog = await convertSessionToBlog({
         memory_space_id: memorySpace.id,
         session_messages: messages,
@@ -211,7 +240,9 @@ function ConversationContent() {
       router.push(`/blogs/${blog.id}`);
     } catch (error) {
       console.error("Error converting to blog:", error);
-      alert("Failed to create blog. Please try again.");
+      const errorMessage =
+        error instanceof Error ? error.message : "Unknown error";
+      alert(`Failed to create blog: ${errorMessage}`);
     } finally {
       setConvertingToBlog(false);
     }

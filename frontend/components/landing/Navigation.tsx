@@ -5,7 +5,7 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { LogOut } from "lucide-react";
 import SignInModal from "@/components/SignInModal";
-import { getUserFromStorage } from "@/lib/api/dummy";
+import { getUserFromStorage } from "@/lib/api/client";
 
 export default function Navigation() {
   const [isScrolled, setIsScrolled] = useState(false);

@@ -10,7 +10,7 @@ import {
   createOrUpdateUser,
   getUserFromStorage,
   checkUserHasBlogs,
-} from "@/lib/api/dummy";
+} from "@/lib/api/client";
 
 interface SignInModalProps {
   isOpen: boolean;

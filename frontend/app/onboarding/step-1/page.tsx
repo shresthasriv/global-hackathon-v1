@@ -10,7 +10,7 @@ import {
   createOrUpdateUser, 
   getUserFromStorage, 
   checkUserHasBlogs 
-} from "@/lib/api/dummy";
+} from "@/lib/api/client";
 
 export default function OnboardingStep1() {
   const router = useRouter();

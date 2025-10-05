@@ -11,7 +11,7 @@ import {
   createMemorySpace,
   uploadPhoto,
   getUserFromStorage,
-} from "@/lib/api/dummy";
+} from "@/lib/api/client";
 
 export default function OnboardingStep2() {
   const router = useRouter();
@@ -72,15 +72,15 @@ export default function OnboardingStep2() {
       }
 
       // Create memory space
-      const memorySpace = await createMemorySpace({
-        user_id: user.id,
+      const result = await createMemorySpace({
+        creator_email: user.email,
         grandparent_name: formData.grandparent_name,
         relation: formData.relation,
-        grandparent_photo_url: photoUrl,
+        photo_url: photoUrl,
       });
 
       // Navigate to step 3 (handoff)
-      router.push(`/onboarding/step-3?space_id=${memorySpace.id}`);
+      router.push(`/onboarding/step-3?space_id=${result.memory_space_id}`);
     } catch (error) {
       console.error("Error creating memory space:", error);
       alert("Something went wrong. Please try again.");
@@ -166,7 +166,7 @@ export default function OnboardingStep2() {
             </div>
 
             {/* Photo Upload */}
-            <div className="space-y-2">
+            {/* <div className="space-y-2">
               <Label htmlFor="photo">
                 Upload a photo{" "}
                 <span className="text-[#8B7355]/60 text-xs">(Optional)</span>
@@ -203,7 +203,7 @@ export default function OnboardingStep2() {
                   )}
                 </label>
               </div>
-            </div>
+            </div> */}
 
             {/* Submit Button */}
             <Button

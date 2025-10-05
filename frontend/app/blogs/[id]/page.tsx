@@ -4,14 +4,14 @@ import { useState, useEffect } from "react";
 import { useRouter, useParams } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft, Calendar, Share2, Download } from "lucide-react";
-import { getBlogById, type MemoryBlog } from "@/lib/api/dummy";
+import { getStoryById, type Story } from "@/lib/api/client";
 import { MarkdownRenderer } from "@/components/MarkdownRenderer";
 import Link from "next/link";
 
 export default function BlogViewPage() {
   const router = useRouter();
   const params = useParams();
-  const [blog, setBlog] = useState<MemoryBlog | null>(null);
+  const [blog, setBlog] = useState<Story | null>(null);
   const [loading, setLoading] = useState(true);
 
   const blogId = params.id as string;
@@ -19,7 +19,7 @@ export default function BlogViewPage() {
   useEffect(() => {
     const loadBlog = async () => {
       try {
-        const blogData = await getBlogById(blogId);
+        const blogData = await getStoryById(blogId);
         if (blogData) {
           setBlog(blogData);
         } else {
@@ -54,10 +54,10 @@ export default function BlogViewPage() {
   };
 
   const handleDownload = () => {
-    if (!blog) return;
+    if (!blog || !blog.content) return;
 
     const element = document.createElement("a");
-    const file = new Blob([blog.markdown_content], { type: "text/markdown" });
+    const file = new Blob([blog.content], { type: "text/markdown" });
     element.href = URL.createObjectURL(file);
     element.download = `${blog.title.replace(/[^a-z0-9]/gi, "_")}.md`;
     document.body.appendChild(element);
@@ -130,23 +130,23 @@ export default function BlogViewPage() {
             <h1 className="font-serif text-5xl font-bold text-[#3E2723] mb-6">
               {blog.title}
             </h1>
-            <div className="flex items-center gap-2 text-[#8B7355]">
+            {/* <div className="flex items-center gap-2 text-[#8B7355]">
               <Calendar className="w-5 h-5" />
               <span>
                 Created on{" "}
-                {new Date(blog.created_at).toLocaleDateString("en-US", {
+                {new Date(blog.created_at || blog.generated_at || Date.now()).toLocaleDateString("en-US", {
                   weekday: "long",
                   year: "numeric",
                   month: "long",
                   day: "numeric",
                 })}
               </span>
-            </div>
+            </div> */}
           </div>
 
           {/* Markdown Content */}
           <div className="bg-white border-2 border-[#E5D5C3] rounded-xl p-8 md:p-12 shadow-lg">
-            <MarkdownRenderer content={blog.markdown_content} />
+            <MarkdownRenderer content={blog.content} />
           </div>
 
           {/* Footer */}

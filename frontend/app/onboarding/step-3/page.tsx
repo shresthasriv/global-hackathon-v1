@@ -4,12 +4,14 @@ import { useState, useEffect, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Sparkles, Link2, Mic, Lightbulb, Copy, Check } from "lucide-react";
+import { getMemorySpace } from "@/lib/api/client";
 
 function Step3Content() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const [memorySpace, setMemorySpace] = useState<any>(null);
   const [copied, setCopied] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   const spaceId = searchParams.get("space_id");
 
@@ -19,29 +21,44 @@ function Step3Content() {
       return;
     }
 
-    // Load memory space from localStorage
-    const stored = localStorage.getItem("current_memory_space");
-    if (stored) {
-      setMemorySpace(JSON.parse(stored));
-    }
+    // Load memory space from backend
+    const loadSpace = async () => {
+      try {
+        const space = await getMemorySpace(spaceId);
+        if (space) {
+          setMemorySpace(space);
+        } else {
+          router.push("/onboarding/step-1");
+        }
+      } catch (error) {
+        console.error("Error loading memory space:", error);
+        router.push("/onboarding/step-1");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadSpace();
   }, [spaceId, router]);
 
   const handleStartRecording = () => {
-    if (memorySpace) {
-      router.push(`/session/${memorySpace.access_token}`);
+    if (memorySpace && spaceId) {
+      // Use memory_space_id instead of access_token
+      router.push(`/session/${spaceId}`);
     }
   };
 
   const handleCopyLink = async () => {
-    if (memorySpace) {
-      const link = `${window.location.origin}/session/${memorySpace.access_token}`;
+    if (memorySpace && spaceId) {
+      // Use memory_space_id in the URL
+      const link = `${window.location.origin}/session/${spaceId}`;
       await navigator.clipboard.writeText(link);
       setCopied(true);
       setTimeout(() => setCopied(false), 2000);
     }
   };
 
-  if (!memorySpace) {
+  if (loading || !memorySpace) {
     return (
       <div className="min-h-screen bg-[#FFF8F0] flex items-center justify-center">
         <div className="animate-pulse text-[#8B7355] text-xl">Loading...</div>

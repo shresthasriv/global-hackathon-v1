@@ -7,13 +7,13 @@ import { Plus, Calendar, ArrowRight } from "lucide-react";
 import {
   getUserBlogs,
   getUserFromStorage,
-  type MemoryBlog,
-} from "@/lib/api/dummy";
+  type Story,
+} from "@/lib/api/client";
 import Link from "next/link";
 
 export default function BlogsPage() {
   const router = useRouter();
-  const [blogs, setBlogs] = useState<MemoryBlog[]>([]);
+  const [blogs, setBlogs] = useState<Story[]>([]);
   const [loading, setLoading] = useState(true);
   const [user, setUser] = useState<any>(null);
 
@@ -134,14 +134,15 @@ export default function BlogsPage() {
                           <div className="flex items-center gap-1">
                             <Calendar className="w-4 h-4" />
                             <span>
-                              {new Date(blog.created_at).toLocaleDateString(
-                                "en-US",
-                                {
-                                  year: "numeric",
-                                  month: "long",
-                                  day: "numeric",
-                                }
-                              )}
+                              {new Date(
+                                blog.created_at ||
+                                  blog.generated_at ||
+                                  Date.now()
+                              ).toLocaleDateString("en-US", {
+                                year: "numeric",
+                                month: "long",
+                                day: "numeric",
+                              })}
                             </span>
                           </div>
                         </div>

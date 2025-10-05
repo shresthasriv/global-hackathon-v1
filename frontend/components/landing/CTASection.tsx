@@ -5,7 +5,7 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { useScrollAnimation } from "@/hooks/useScrollAnimation";
 import SignInModal from "@/components/SignInModal";
-import { getUserFromStorage } from "@/lib/api/dummy";
+import { getUserFromStorage } from "@/lib/api/client";
 
 export default function CTASection() {
   const { elementRef, isVisible } = useScrollAnimation({ threshold: 0.3 });
