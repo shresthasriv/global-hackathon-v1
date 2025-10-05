@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { UserCircle, Users, Baby } from "lucide-react";
 import { useScrollAnimation } from "@/hooks/useScrollAnimation";
 
 export default function ProblemStatement() {
@@ -83,8 +84,11 @@ export default function ProblemStatement() {
                 }`}
                 style={{ transitionDelay: "0.1s" }}
               >
-                <div className="w-14 h-14 md:w-20 md:h-20 rounded-full bg-[#8B7355] flex items-center justify-center text-2xl md:text-3xl shadow-lg">
-                  👴🏻
+                <div className="w-14 h-14 md:w-20 md:h-20 rounded-full bg-[#8B7355] flex items-center justify-center shadow-lg">
+                  <UserCircle
+                    className="w-8 h-8 md:w-12 md:h-12 text-white"
+                    strokeWidth={1.5}
+                  />
                 </div>
                 <span className="text-xs md:text-sm text-[#5D5D5D] font-medium">
                   Generation 1
@@ -108,8 +112,11 @@ export default function ProblemStatement() {
                 }`}
                 style={{ transitionDelay: "0.3s" }}
               >
-                <div className="w-14 h-14 md:w-20 md:h-20 rounded-full bg-[#A8B89F] flex items-center justify-center text-2xl md:text-3xl shadow-lg">
-                  👨🏻
+                <div className="w-14 h-14 md:w-20 md:h-20 rounded-full bg-[#A8B89F] flex items-center justify-center shadow-lg">
+                  <Users
+                    className="w-8 h-8 md:w-11 md:h-11 text-white"
+                    strokeWidth={1.5}
+                  />
                 </div>
                 <span className="text-xs md:text-sm text-[#5D5D5D] font-medium">
                   Generation 2
@@ -133,8 +140,11 @@ export default function ProblemStatement() {
                 }`}
                 style={{ transitionDelay: "0.5s" }}
               >
-                <div className="w-14 h-14 md:w-20 md:h-20 rounded-full bg-[#E5D5C3] flex items-center justify-center text-2xl md:text-3xl shadow-lg">
-                  👧🏻
+                <div className="w-14 h-14 md:w-20 md:h-20 rounded-full bg-[#E5D5C3] flex items-center justify-center shadow-lg">
+                  <Baby
+                    className="w-7 h-7 md:w-10 md:h-10 text-white"
+                    strokeWidth={1.5}
+                  />
                 </div>
                 <span className="text-xs md:text-sm text-[#5D5D5D] font-medium">
                   Generation 3
