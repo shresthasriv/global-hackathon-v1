@@ -4,7 +4,7 @@ import json
 
 from fastapi import Depends, HTTPException, status
 from fastapi.responses import StreamingResponse
-from sqlalchemy import select
+from sqlalchemy import select, func
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from database.postgres import get_db
@@ -16,6 +16,7 @@ from models import (
     TopicEnum,
     SessionStatus,
 )
+from models.conversation_message import MessageRole
 from services.__base.acquire import Acquire
 from services.conversations.schema import (
     ConversationStartRequest,
@@ -126,12 +127,32 @@ class ConversationsService:
                 }
                 yield f"data: {json.dumps(metadata)}\n\n"
                 
-                # Stream tokens
+                # Prepare user message
                 user_msg = request.user_message if request.user_message else "Start the conversation with a warm greeting and your first question."
+                
+                # Get current message count for sequence numbers
+                count_query = select(func.count(ConversationMessage.id)).where(
+                    ConversationMessage.session_id == session_id
+                )
+                count_result = await session.execute(count_query)
+                current_message_count = count_result.scalar() or 0
+                
+                # Save user message to database
+                user_message = ConversationMessage(
+                    session_id=session_id,
+                    role=MessageRole.USER.value,  # Use .value to get string
+                    content=user_msg,
+                    sequence_number=current_message_count + 1,
+                )
+                session.add(user_message)
+                await session.commit()
                 
                 # If ending conversation, add a closing message
                 if request.end_conversation:
                     user_msg = f"{user_msg}\n\nPlease provide a warm closing message thanking {grandparent_name} for sharing their memories."
+                
+                # Collect AI response while streaming
+                ai_response_parts = []
                 
                 async for token in self.agent_factory.chat(
                     chat_session_id=session_id,
@@ -140,19 +161,36 @@ class ConversationsService:
                 ):
                     # Extract content from token event
                     if hasattr(token, 'content') and token.content:
+                        ai_response_parts.append(token.content)
                         token_data = {
                             "type": "token",
                             "content": token.content,
                         }
                         yield f"data: {json.dumps(token_data)}\n\n"
                 
+                # Save AI response to database
+                ai_response = "".join(ai_response_parts)
+                assistant_message = ConversationMessage(
+                    session_id=session_id,
+                    role=MessageRole.ASSISTANT.value,  # Use .value to get string
+                    content=ai_response,
+                    sequence_number=current_message_count + 2,
+                )
+                session.add(assistant_message)
+                
                 # If should ask to continue, add a continuation prompt
                 if should_ask_to_continue and not is_complete:
+                    continuation_text = "\n\nWe've covered quite a bit! Would you like to continue sharing more memories, or shall we catch up another time?"
+                    # Append to AI response in database
+                    assistant_message.content += continuation_text
+                    
                     continue_prompt = {
                         "type": "token",
-                        "content": "\n\nWe've covered quite a bit! Would you like to continue sharing more memories, or shall we catch up another time?",
+                        "content": continuation_text,
                     }
                     yield f"data: {json.dumps(continue_prompt)}\n\n"
+                
+                await session.commit()
                 
                 # Send completion marker
                 completion = {
