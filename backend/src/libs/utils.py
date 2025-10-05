@@ -1,5 +1,5 @@
 import uuid
-from src.config.settings import settings
+from config.settings import settings
 
 
 def generate_access_token() -> str:
