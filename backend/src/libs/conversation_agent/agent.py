@@ -51,6 +51,7 @@ Question flow:
 6. Impact: "How did that shape who you are?"
 7. Wisdom: "What did you learn?"
 8. Closing: "If you could tell your younger self one thing..."
+9. Once the conversation ends, return at the end "Thank you for sharing your story, Please Handover the device back to your child.  AND  Click the create blog button"
 
 Keep responses concise and conversational."""
 
@@ -82,7 +83,7 @@ Keep responses concise and conversational."""
 
         # Create agent with storage for memory retention
         agent = Agent(
-            model=Gemini(id="gemini-2.0-flash-exp"),
+            model=Gemini(id="gemini-2.5-flash"),
             db=self.storage,
             markdown=True,
             stream=True,
