@@ -1,4 +1,4 @@
-from uuid import UUID
+from uuid import UUID, uuid4
 
 from fastapi import Depends, HTTPException, status
 from sqlalchemy import select
@@ -50,7 +50,7 @@ class MemorySpacesService:
             grandparent_name=space_data.grandparent_name,
             grandparent_photo_url=space_data.photo_url,
             relation=space_data.relation,
-            access_token="",  # No longer using tokens
+            access_token=str(uuid4()),  # Generate unique token (not used for auth)
         )
         session.add(memory_space)
         await session.flush()  # Get the ID
