@@ -21,6 +21,8 @@ import {
   type ConversationMessage,
 } from "@/lib/api/client";
 import { useSpeechRecognition } from "@/hooks/useSpeechRecognition";
+import { useTypingAnimation } from "@/hooks/useTypingAnimation";
+import { InlineMarkdown } from "@/components/InlineMarkdown";
 import ConfirmationModal from "@/components/ConfirmationModal";
 
 function ConversationContent() {
@@ -35,6 +37,8 @@ function ConversationContent() {
   const [inputText, setInputText] = useState("");
   const [loading, setLoading] = useState(true);
   const [sending, setSending] = useState(false);
+  const [streaming, setStreaming] = useState(false); // Track if AI is streaming
+  const [streamingContent, setStreamingContent] = useState(""); // Current streaming content
   const [mode, setMode] = useState<"voice" | "text">("text");
   const [convertingToBlog, setConvertingToBlog] = useState(false);
   const [showConvertModal, setShowConvertModal] = useState(false);
@@ -55,6 +59,12 @@ function ConversationContent() {
   } = useSpeechRecognition({
     lang: "en-US",
   });
+
+  // Typing Animation Hook - animates the streaming content
+  const { displayedText: animatedStreamingText, isTyping } = useTypingAnimation(
+    streamingContent,
+    { speed: 30, enabled: streaming } // 50 chars/sec
+  );
 
   useEffect(() => {
     const modeParam = searchParams.get("mode");
@@ -95,6 +105,13 @@ function ConversationContent() {
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
+
+  // Auto-scroll when animated streaming content updates
+  useEffect(() => {
+    if (streaming && animatedStreamingText) {
+      messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+    }
+  }, [animatedStreamingText, streaming]);
 
   // Detect if user has scrolled up to see previous messages
   useEffect(() => {
@@ -138,13 +155,25 @@ function ConversationContent() {
     setMessages((prev) => [...prev, userMessage]);
     setInputText("");
     setSending(true);
+    setStreamingContent(""); // Reset streaming content
 
     try {
       const aiResponse = await sendMessage(
         memorySpace.id,
         messageText,
         sessionId || undefined,
-        memorySpace.grandparent_name
+        memorySpace.grandparent_name,
+        false,
+        // Streaming callback - updates content in real-time
+        (token: string) => {
+          console.log("🔴 Token received:", token); // Debug log
+          setStreaming(true); // Ensure streaming state is set
+          setStreamingContent((prev) => {
+            const newContent = prev + token;
+            console.log("📝 Updated content length:", newContent.length); // Debug log
+            return newContent;
+          });
+        }
       );
 
       // Store session ID if this is the first message
@@ -155,10 +184,15 @@ function ConversationContent() {
         }
       }
 
+      // Add the complete message to the list
       setMessages((prev) => [...prev, aiResponse]);
+      setStreamingContent(""); // Clear streaming content
+      setStreaming(false);
     } catch (error) {
       console.error("Error sending message:", error);
       alert("Failed to send message. Please try again.");
+      setStreamingContent(""); // Clear on error
+      setStreaming(false);
     } finally {
       setSending(false);
       // Auto-focus the input field after AI responds (only in text mode)
@@ -360,14 +394,36 @@ function ConversationContent() {
                     : "bg-white border-2 border-[#E5D5C3] text-[#3E2723]"
                 }`}
               >
-                <p className="text-base leading-relaxed">{message.content}</p>
+                <div className="text-base leading-relaxed">
+                  {message.role === "assistant" ? (
+                    <InlineMarkdown content={message.content} />
+                  ) : (
+                    <span className="whitespace-pre-wrap">
+                      {message.content}
+                    </span>
+                  )}
+                </div>
                 <span className="text-xs opacity-70 mt-2 block">
                   {new Date(message.timestamp).toLocaleTimeString()}
                 </span>
               </div>
             </div>
           ))}
-          {sending && (
+
+          {/* Streaming AI Response with Typing Animation */}
+          {streaming && streamingContent && (
+            <div className="flex justify-start animate-in fade-in slide-in-from-bottom-4 duration-500 ease-out">
+              <div className="max-w-[80%] bg-white border-2 border-[#E5D5C3] rounded-2xl p-4 shadow-md">
+                <div className="text-base leading-relaxed text-[#3E2723]">
+                  <InlineMarkdown content={animatedStreamingText} />
+                  <span className="inline-block w-1 h-5 bg-[#8B7355] ml-1 animate-pulse" />
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* Loading indicator when waiting for first token */}
+          {sending && !streaming && (
             <div className="flex justify-start animate-in fade-in slide-in-from-bottom-4 duration-500 ease-out">
               <div className="bg-white border-2 border-[#E5D5C3] rounded-2xl p-4 shadow-md">
                 <div className="flex gap-2">

@@ -222,7 +222,8 @@ export async function sendMessage(
   message: string,
   sessionId?: string,
   grandparentName?: string,
-  endConversation?: boolean
+  endConversation?: boolean,
+  onToken?: (token: string) => void // Callback for streaming tokens
 ): Promise<ConversationMessage> {
   const body: Record<string, unknown> = {
     memory_space_id: memorySpaceId,
@@ -284,6 +285,10 @@ export async function sendMessage(
               }
             } else if (data.type === "token") {
               content += data.content;
+              // Call the callback with each token for real-time updates
+              if (onToken) {
+                onToken(data.content);
+              }
             }
           } catch (e) {
             // Ignore JSON parse errors
