@@ -14,6 +14,19 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+# Health check endpoint for Render
+@app.get("/")
+async def root():
+    return {
+        "status": "healthy",
+        "service": "Evermore is here",
+        "version": "0.1.0"
+    }
+
+@app.get("/health")
+async def health_check():
+    return {"status": "ok"}
+
 manager = Manager(app, prefix="/api")
 manager.register_services()
 manager.register_middlewares()
