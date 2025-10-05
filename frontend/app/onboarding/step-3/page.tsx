@@ -3,13 +3,25 @@
 import { useState, useEffect, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Button } from "@/components/ui/button";
-import { Sparkles, Link2, Mic, Lightbulb, Copy, Check } from "lucide-react";
+import {
+  Copy,
+  CheckCircle,
+  Mic,
+  Keyboard,
+  Sparkles,
+  Check,
+  Lightbulb,
+} from "lucide-react";
 import { getMemorySpace } from "@/lib/api/client";
 
 function Step3Content() {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const [memorySpace, setMemorySpace] = useState<any>(null);
+  const [memorySpace, setMemorySpace] = useState<{
+    id: string;
+    grandparent_name: string;
+    relation: string;
+  } | null>(null);
   const [copied, setCopied] = useState(false);
   const [loading, setLoading] = useState(true);
 

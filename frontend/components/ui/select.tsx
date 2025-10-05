@@ -2,6 +2,7 @@ import * as React from "react";
 import { ChevronDown } from "lucide-react";
 import { cn } from "@/lib/utils";
 
+// eslint-disable-next-line @typescript-eslint/no-empty-object-type
 export interface SelectProps
   extends React.SelectHTMLAttributes<HTMLSelectElement> {}
 

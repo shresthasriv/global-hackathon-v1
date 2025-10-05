@@ -151,7 +151,7 @@ export async function startConversation(
   userMessage: string,
   sessionId?: string
 ): Promise<{ content: string; metadata: StreamMetadata }> {
-  const body: any = {
+  const body: Record<string, unknown> = {
     memory_space_id: memorySpaceId,
     grandparent_name: grandparentName,
   };
@@ -224,7 +224,7 @@ export async function sendMessage(
   grandparentName?: string,
   endConversation?: boolean
 ): Promise<ConversationMessage> {
-  const body: any = {
+  const body: Record<string, unknown> = {
     memory_space_id: memorySpaceId,
   };
 
@@ -313,12 +313,19 @@ export async function getConversationHistory(
   }
 
   const data = await response.json();
-  return data.messages.map((msg: any) => ({
-    id: msg.id,
-    role: msg.role,
-    content: msg.content,
-    timestamp: msg.timestamp,
-  }));
+  return data.messages.map(
+    (msg: {
+      id: string;
+      role: string;
+      content: string;
+      timestamp: string;
+    }) => ({
+      id: msg.id,
+      role: msg.role,
+      content: msg.content,
+      timestamp: msg.timestamp,
+    })
+  );
 }
 
 // Story Management

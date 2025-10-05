@@ -6,10 +6,10 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { ArrowRight, Sparkles } from "lucide-react";
-import { 
-  createOrUpdateUser, 
-  getUserFromStorage, 
-  checkUserHasBlogs 
+import {
+  createOrUpdateUser,
+  getUserFromStorage,
+  checkUserHasBlogs,
 } from "@/lib/api/client";
 
 export default function OnboardingStep1() {
@@ -71,7 +71,7 @@ export default function OnboardingStep1() {
 
       // Check if user has existing blogs
       const hasBlogs = await checkUserHasBlogs(formData.email);
-      
+
       if (hasBlogs) {
         // User has previous blogs, show them
         router.push("/blogs");
@@ -116,7 +116,7 @@ export default function OnboardingStep1() {
             Welcome!
           </h1>
           <p className="text-lg text-[#5D5D5D]">
-            Let's start by getting to know you
+            Let&apos;s get started on preserving precious memories
           </p>
         </div>
 

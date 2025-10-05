@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import { useRouter, useParams } from "next/navigation";
 import { Button } from "@/components/ui/button";
-import { ArrowLeft, Calendar, Share2, Download } from "lucide-react";
+import { ArrowLeft, Share2 } from "lucide-react";
 import { getStoryById, type Story } from "@/lib/api/client";
 import { MarkdownRenderer } from "@/components/MarkdownRenderer";
 import Link from "next/link";
@@ -153,7 +153,8 @@ export default function BlogViewPage() {
           <div className="mt-12 text-center">
             <div className="inline-block bg-white border-2 border-[#E5D5C3] rounded-xl px-6 py-4 shadow-md">
               <p className="text-[#8B7355] italic">
-                "Every memory preserved is a gift to future generations."
+                &quot;Every memory preserved is a gift to future
+                generations.&quot;
               </p>
             </div>
           </div>

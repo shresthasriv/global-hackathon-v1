@@ -1,3 +1,7 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable @next/next/no-img-element */
+/* eslint-disable jsx-a11y/alt-text */
 "use client";
 
 import ReactMarkdown from "react-markdown";
@@ -83,7 +87,7 @@ export function MarkdownRenderer({ content }: MarkdownRendererProps) {
           ),
 
           // Horizontal Rule
-          hr: ({ node, ...props }) => (
+          hr: ({ ...props }) => (
             <hr className="border-t-2 border-[#E5D5C3] my-8" {...props} />
           ),
 

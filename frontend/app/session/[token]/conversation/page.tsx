@@ -27,7 +27,10 @@ function ConversationContent() {
   const router = useRouter();
   const params = useParams();
   const searchParams = useSearchParams();
-  const [memorySpace, setMemorySpace] = useState<any>(null);
+  const [memorySpace, setMemorySpace] = useState<{
+    id: string;
+    grandparent_name: string;
+  } | null>(null);
   const [messages, setMessages] = useState<ConversationMessage[]>([]);
   const [inputText, setInputText] = useState("");
   const [loading, setLoading] = useState(true);
@@ -274,7 +277,7 @@ function ConversationContent() {
               </div>
               <div>
                 <h1 className="font-serif font-bold text-xl text-[#3E2723]">
-                  {memorySpace.grandparent_name}'s Stories
+                  {memorySpace.grandparent_name}&apos;s Stories
                 </h1>
                 <p className="text-sm text-[#8B7355]">
                   {mode === "voice" ? "Voice Mode" : "Text Mode"}

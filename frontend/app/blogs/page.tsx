@@ -4,18 +4,16 @@ import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Plus, Calendar, ArrowRight } from "lucide-react";
-import {
-  getUserBlogs,
-  getUserFromStorage,
-  type Story,
-} from "@/lib/api/client";
+import { getUserBlogs, getUserFromStorage, type Story } from "@/lib/api/client";
 import Link from "next/link";
 
 export default function BlogsPage() {
   const router = useRouter();
   const [blogs, setBlogs] = useState<Story[]>([]);
   const [loading, setLoading] = useState(true);
-  const [user, setUser] = useState<any>(null);
+  const [user, setUser] = useState<{ email: string; name: string } | null>(
+    null
+  );
 
   useEffect(() => {
     const loadBlogs = async () => {
@@ -58,7 +56,7 @@ export default function BlogsPage() {
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
               {/* <div className="w-12 h-12 rounded-full bg-gradient-to-br from-[#8B7355] to-[#D4AF37] flex items-center justify-center"> */}
-                {/* <BookOpen className="w-6 h-6 text-white" /> */}
+              {/* <BookOpen className="w-6 h-6 text-white" /> */}
               {/* </div> */}
               <div>
                 <h1 className="font-serif font-bold text-2xl text-[#3E2723]">
@@ -84,10 +82,10 @@ export default function BlogsPage() {
         {blogs.length === 0 ? (
           <div className="max-w-2xl mx-auto text-center py-16">
             {/* <div className="w-24 h-24 mx-auto mb-6 rounded-full bg-[#FFF8F0] border-4 border-[#E5D5C3] flex items-center justify-center"> */}
-              {/* <BookOpen className="w-12 h-12 text-[#8B7355]" /> */}
+            {/* <BookOpen className="w-12 h-12 text-[#8B7355]" /> */}
             {/* </div> */}
             <h2 className="font-serif text-3xl font-bold text-[#3E2723] mb-4">
-              No Memory Blogs Yet
+              No stories yet. Let&apos;s create your first one!
             </h2>
             <p className="text-lg text-[#8B7355] mb-8">
               Start preserving precious memories by creating your first memory

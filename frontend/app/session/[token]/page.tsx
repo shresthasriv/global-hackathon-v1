@@ -2,14 +2,18 @@
 
 import { useState, useEffect } from "react";
 import { useRouter, useParams } from "next/navigation";
-import { Button } from "@/components/ui/button";
+// import { Button } from "@/components/ui/button";
 import { Mic, Keyboard, Sparkles } from "lucide-react";
 import { getMemorySpace } from "@/lib/api/client";
 
 export default function SessionPage() {
   const router = useRouter();
   const params = useParams();
-  const [memorySpace, setMemorySpace] = useState<any>(null);
+  const [memorySpace, setMemorySpace] = useState<{
+    id: string;
+    grandparent_name: string;
+    relation: string;
+  } | null>(null);
   const [loading, setLoading] = useState(true);
 
   const token = params.token as string;
@@ -72,7 +76,7 @@ export default function SessionPage() {
             👋 Hello, {memorySpace.grandparent_name.split(" ")[0]}!
           </h1>
           <p className="text-xl text-[#5D5D5D] max-w-xl mx-auto">
-            I'm here to help you share your wonderful life stories.
+            I&apos;m here to help you share your wonderful life stories.
           </p>
         </div>
 
@@ -87,7 +91,7 @@ export default function SessionPage() {
               <div className="flex-shrink-0 w-8 h-8 rounded-full bg-gradient-to-br from-[#8B7355] to-[#A0826D] flex items-center justify-center text-white font-bold">
                 1
               </div>
-              <p className="text-[#3E2723] pt-1">I'll ask you questions</p>
+              <p className="text-[#3E2723] pt-1">I&apos;ll ask you questions</p>
             </div>
 
             <div className="flex items-start gap-4">
@@ -131,7 +135,7 @@ export default function SessionPage() {
                     <Mic className="w-8 h-8" />
                   </div>
                   <span className="text-2xl font-serif font-bold">
-                    I'll speak
+                    I&apos;ll speak
                   </span>
                 </div>
                 <div className="absolute inset-0 rounded-xl ring-4 ring-transparent group-hover:ring-[#D4AF37]/50 transition-all" />
@@ -147,7 +151,7 @@ export default function SessionPage() {
                     <Keyboard className="w-8 h-8" />
                   </div>
                   <span className="text-2xl font-serif font-bold">
-                    I'll type
+                    I&apos;ll type
                   </span>
                 </div>
                 <div className="absolute inset-0 rounded-xl ring-4 ring-transparent group-hover:ring-[#A8B89F]/50 transition-all" />

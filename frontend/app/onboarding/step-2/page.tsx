@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Select } from "@/components/ui/select";
 import { Label } from "@/components/ui/label";
-import { Upload, ArrowRight, Heart } from "lucide-react";
+import { ArrowRight, Heart } from "lucide-react";
 import {
   createMemorySpace,
   uploadPhoto,
@@ -17,8 +17,9 @@ export default function OnboardingStep2() {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [checkingAuth, setCheckingAuth] = useState(true);
-  const [photoFile, setPhotoFile] = useState<File | null>(null);
-  const [photoPreview, setPhotoPreview] = useState<string>("");
+  // Commented out for now - photo upload not implemented
+  // const [photoFile, setPhotoFile] = useState<File | null>(null);
+  // const [photoPreview, setPhotoPreview] = useState<string>("");
   const [formData, setFormData] = useState({
     grandparent_name: "",
     relation: "grandchild",
@@ -35,17 +36,18 @@ export default function OnboardingStep2() {
     }
   }, [router]);
 
-  const handlePhotoChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (file) {
-      setPhotoFile(file);
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setPhotoPreview(reader.result as string);
-      };
-      reader.readAsDataURL(file);
-    }
-  };
+  // Commented out for now - photo upload not implemented
+  // const handlePhotoChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  //   const file = e.target.files?.[0];
+  //   if (file) {
+  //     setPhotoFile(file);
+  //     const reader = new FileReader();
+  //     reader.onloadend = () => {
+  //       setPhotoPreview(reader.result as string);
+  //     };
+  //     reader.readAsDataURL(file);
+  //   }
+  // };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -65,11 +67,11 @@ export default function OnboardingStep2() {
     setLoading(true);
 
     try {
-      // Upload photo if provided
-      let photoUrl = undefined;
-      if (photoFile) {
-        photoUrl = await uploadPhoto(photoFile);
-      }
+      // Upload photo if provided (not implemented yet)
+      const photoUrl = undefined;
+      // if (photoFile) {
+      //   photoUrl = await uploadPhoto(photoFile);
+      // }
 
       // Create memory space
       const result = await createMemorySpace({
@@ -118,7 +120,7 @@ export default function OnboardingStep2() {
             Who are we remembering?
           </h1>
           <p className="text-lg text-[#5D5D5D]">
-            Tell us about the person whose stories you'd like to preserve
+            Tell us about the person whose stories you&apos;d like to preserve
           </p>
         </div>
 

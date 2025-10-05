@@ -9,7 +9,9 @@ import { getUserFromStorage } from "@/lib/api/client";
 
 export default function CTASection() {
   const { elementRef, isVisible } = useScrollAnimation({ threshold: 0.3 });
-  const [user, setUser] = useState<any>(null);
+  const [user, setUser] = useState<{ email: string; name: string } | null>(
+    null
+  );
   const [showSignInModal, setShowSignInModal] = useState(false);
 
   useEffect(() => {
