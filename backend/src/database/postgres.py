@@ -12,8 +12,8 @@ async_engine = create_async_engine(
   settings.database_url,
   echo=False,
   poolclass=AsyncAdaptedQueuePool,
-  pool_size=1000,
-  max_overflow=2000,
+  pool_size=5,
+  max_overflow=10,
   pool_timeout=30,
   pool_pre_ping=True,
 )
