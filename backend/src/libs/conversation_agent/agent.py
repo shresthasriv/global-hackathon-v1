@@ -5,7 +5,7 @@ from agno.agent import Agent
 from agno.db.postgres import PostgresDb
 from agno.models.google import Gemini
 
-from src.config.settings import settings
+from config.settings import settings
 
 
 
@@ -21,11 +21,17 @@ class ConversationAgentFactory:
             db_schema="public"
         )
 
-    def _build_instructions(self, topic: str, grandparent_name: str) -> str:
+    def _build_instructions(self, grandparent_name: str) -> str:
         """Build conversation instructions for the agent."""
         return f"""You are a caring, patient grandchild having a conversation with {grandparent_name}.
 
-Your goal: Capture their life story about {topic} through natural conversation.
+Your goal: Capture their life story about {grandparent_name}'s life experiences, start from his childhood and loop through each of this topics:
+    CHILDHOOD = "childhood"
+    LOVE_STORY = "love_story"
+    CAREER = "career"
+    LIFE_LESSONS = "life_lessons"
+    SURPRISE = "surprise"
+through natural conversation.
 
 Guidelines:
 - Ask ONE question at a time
@@ -51,7 +57,6 @@ Keep responses concise and conversational."""
     async def chat(
         self,
         chat_session_id: str | UUID,
-        topic: str,
         grandparent_name: str,
         message: str,
         memory_size: int = 100,
@@ -85,12 +90,10 @@ Keep responses concise and conversational."""
             read_chat_history=True,
             session_id=str(chat_session_id),
             num_history_runs=memory_size,
-            instructions=self._build_instructions(topic, grandparent_name),
+            instructions=self._build_instructions(grandparent_name),
         )
 
-        async for token in agent.arun(
-            message,
-            stream=True
-        ):
-            yield token
+        # Stream response from agent
+        async for chunk in agent.arun(message, stream=True):
+            yield chunk
 

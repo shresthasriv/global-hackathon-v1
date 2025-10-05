@@ -48,7 +48,7 @@ Format your response as whatever you think is best as you are a skilled writer
 
         # Create agent
         agent = Agent(
-            model=Gemini(id="gemini-2.0-flash-exp"),  # type: ignore
+            model=Gemini(id="gemini-2.5-flash"),  # type: ignore
             instructions=self._build_instructions(),
             markdown=True,
         )
