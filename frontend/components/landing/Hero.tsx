@@ -59,13 +59,12 @@ export default function Hero() {
               {/* Image Container with Scrapbook Effect */}
               <div className="relative bg-white p-4 rounded-2xl shadow-2xl transform rotate-2 hover:rotate-0 transition-transform duration-500">
                 <div className="aspect-[4/5] rounded-xl overflow-hidden bg-gradient-to-br from-[#E8B4A0] to-[#A8B89F] flex items-center justify-center">
-                  {/* Placeholder - Replace with actual image */}
-                  <div className="text-center p-8">
-                    <span className="text-8xl mb-4 block">👵🏻👴🏻</span>
-                    <p className="text-white text-xl font-serif">
-                      Precious Memories
-                    </p>
-                  </div>
+                  {/* Hero Image */}
+                  <img
+                    src="/grandpa_grandson.png"
+                    alt="Grandparent and grandchild sharing memories"
+                    className="w-full h-full object-cover rounded-xl shadow-lg"
+                  />
                 </div>
 
                 {/* Polaroid-style caption */}
