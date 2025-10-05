@@ -5,7 +5,7 @@ from sqlalchemy.ext.asyncio import AsyncSession, async_sessionmaker, create_asyn
 from sqlalchemy.orm import Session, sessionmaker
 from sqlalchemy.pool import AsyncAdaptedQueuePool, QueuePool
 
-from src.config.settings import settings
+from config.settings import settings
 
 # Async engine and session (for FastAPI endpoints)
 async_engine = create_async_engine(
